@@ -6,11 +6,7 @@
   "plugins": [
     {
       "name": "uk-property-sale-tracker",
-      "description": "Runs a UK property agent's sell-side mandate end to end: onboarding, data room, buyer tracker, NDAs, buyer qualification, multi-round bids, preferred-bidder selection and Heads of Terms, legals through to completion, and client reporting. Includes the Deal Desk orchestrator agent.",
-      "author": { "name": "Adam Moore" },
-      "category": "productivity",
-      "keywords": ["property", "real-estate", "uk", "sell-side", "mandate", "conveyancing"],
-      "source": "."
+      "source": "./uk-property-sale-tracker"
     }
   ]
 }
