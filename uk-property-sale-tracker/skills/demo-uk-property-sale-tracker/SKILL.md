@@ -19,9 +19,9 @@ metadata:
 # Demo: UK Property Sale Tracker (start to finish)
 
 This is the **guided walkthrough** for the plugin. It auto-cycles through the whole
-sell-side mandate — setup, mandate onboarding, data room, launch, NDAs, qualification,
+sell-side mandate: setup, mandate onboarding, data room, launch, NDAs, qualification,
 two bid rounds, preferred bidder + Heads of Terms, legals to completion, and the
-closing report — **without the user calling each skill individually**. Every stage
+closing report, **without the user calling each skill individually**. Every stage
 maps to one real plugin skill and writes the same `tracker.json` and
 `mandate-tracker.xlsx` that skill would, so the demo shows exactly how the live plugin
 behaves.
@@ -32,13 +32,13 @@ the workbook is a rendered view" write pattern while you present.
 
 ## The demo deal
 
-- **Property:** Quantum 245, Birch Coppice Business Park, Tamworth — a 245,000 sq ft
+- **Property:** Quantum 245, Birch Coppice Business Park, Tamworth, a 245,000 sq ft
   single-let distribution warehouse (industrial / logistics), freehold.
 - **Vendor / client:** Helix Real Estate Partners LLP. **Tenant:** GXO Logistics.
 - **Process:** informal tender, two rounds; quoting £55.0m / 5.15% NIY.
 - **Story:** six buyers enquire, five sign NDAs and qualify (Barings never returns its
   NDA and drops out), five round-1 offers (£52.0m–£54.5m), four best-and-final (abrdn
-  withdraws), **Prologis UK wins at £57.6m unconditional** — 4.7% above quoting — then
+  withdraws), **Prologis UK wins at £57.6m unconditional** (4.7% above quoting), then
   exchange and completion (5 June 2026), closing report and fee invoice.
 
 Everything is fictional and every document is a clearly-labelled placeholder.
@@ -66,7 +66,7 @@ and runs the plugin's `refresh_tracker.py` so the workbook and snapshot stay cor
 1. **Confirm the user wants the full guided demo** and which folder to build it in.
    Default to a fresh `quantum-245-tamworth-DEMO/` folder inside the user's connected
    Cowork working folder. **If that folder already exists, tell the user the demo will
-   reset it and confirm** (re-running starts clean — that is expected and fine).
+   reset it and confirm** (re-running starts clean; that is expected and fine).
 2. **Set the plugin root.** In bash, `export CLAUDE_PLUGIN_ROOT="<plugin-root>"` (the
    `uk-property-sale-tracker` folder that contains `shared/` and `assets/`). The engine
    also auto-detects it from its own location if the variable is unset.
@@ -98,7 +98,7 @@ and the resulting stage/round. After each call:
    pulled from the dummy inbox, and how the tracker changed (new buyers, NDA statuses,
    bids logged, milestones advanced).
 2. **Confirm the refresh succeeded** (`refresh_rc` is 0). If not, stop and fix before
-   continuing — never present a broken workbook.
+   continuing; never present a broken workbook.
 3. **Mark the matching task complete** in the task list.
 4. **Pause** with a one-line "next up: …" and wait for the user (unless they chose
    "run all"). If "run all", run the remaining stages back to back, then present the
@@ -106,22 +106,22 @@ and the resulting stage/round. After each call:
 
 ### Stage notes to call out while presenting
 
-- **`00-setup`** — point out the folder tree and the master workbook being installed,
+- **`00-setup`**: point out the folder tree and the master workbook being installed,
   then **show the schedules the engine reports but do NOT create them** (this is a
   simulated demo). Say plainly: "in a live mandate the plugin would schedule these," and
   read them out: the **weekday NDA chaser** (`0 9 * * 1-5`), the **weekly client
   progress report** to Helix (`0 8 * * 1`), the **weekly internal deal-team standup**
   (`0 7 * * 1`), and the **one-off round-1 process letter** for the agreed date. This is
   where you demonstrate that the agent runs chasers and team updates on a schedule.
-- **`03-launch`** — after this stage, build the **live dashboard artifact** (see below);
+- **`03-launch`**: after this stage, build the **live dashboard artifact** (see below);
   it is the single best visual for the rest of the demo.
-- **`04-ndas` / `05-signed-ndas`** — highlight the chaser cadence and that Barings is
-  chased twice and drops out — the plugin tracks non-responders, it does not silently
+- **`04-ndas` / `05-signed-ndas`**: highlight the chaser cadence and that Barings is
+  chased twice and drops out; the plugin tracks non-responders, it does not silently
   forget them.
-- **`09-request-r2` and `11-select-hot`** — call these out as **judgment gates**: the
+- **`09-request-r2` and `11-select-hot`**: call these out as **judgment gates**: the
   agent drafts and recommends, but opening round 2 and choosing the winner / approving
   Heads of Terms are the client's decisions. The engine's `gate` field has the wording.
-- **`11`–`13`** — these file Heads of Terms, solicitor correspondence and the closing
+- **`11`–`13`**: these file Heads of Terms, solicitor correspondence and the closing
   report + fee invoice as placeholders, and walk the legal milestones to completion.
 
 ## The live dashboard (after `03-launch`, refresh once per stage if asked)
@@ -130,7 +130,7 @@ Build the persistent dashboard artifact described in the `review-inbox` skill, t
 "Quantum 245 mandate dashboard", reading the demo deal's `tracker.json` as its baseline:
 deal header, the pipeline funnel (buyers / NDAs issued / signed / qualified / R1 bids /
 R2 bids / highest offer), the buyer table with status pills, data-room readiness, the
-bid summary by round, and — once the deal reaches the legal phase — the legal and
+bid summary by round, and, once the deal reaches the legal phase, the legal and
 completion strip. It is the window onto the whole mandate as it advances.
 
 ## Finish
@@ -138,8 +138,8 @@ completion strip. It is the window onto the whole mandate as it advances.
 When `13-close` completes, present the result: the deal is **Completed** at **£57.6m
 (4.7% above quoting)**, with 45/45 tasks done. Show the user:
 
-- `mandate-tracker.xlsx` — all seven tabs populated (use `present_files`).
-- `tracker-snapshot.md` and `correspondence-log.md` — the text views and the running log
+- `mandate-tracker.xlsx`: all seven tabs populated (use `present_files`).
+- `tracker-snapshot.md` and `correspondence-log.md`: the text views and the running log
   of every document pulled.
 - `05-reporting/2026-06-05-closing-report.md` and the fee invoice.
 
@@ -157,4 +157,4 @@ via `setup-deal`).
   enquiries, NDAs, LOIs or legal letters beyond filing and logging them.
 - **Drive everything through the engine.** Update the deal only via `apply_stage.py`,
   which writes `tracker.json` and runs `refresh_tracker.py`; never hand-edit the workbook.
-- **Re-running resets the demo folder** — confirm with the user first, then start clean.
+- **Re-running resets the demo folder**: confirm with the user first, then start clean.
