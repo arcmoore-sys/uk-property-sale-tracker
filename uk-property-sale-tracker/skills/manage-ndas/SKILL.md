@@ -43,7 +43,7 @@ This mode runs from the daily scheduled task created by `setup-deal`. For every
 buyer with `nda_status: sent` (i.e. sent but not yet `signed`):
 
 1. Compute days since `last_chase_date` (or `nda_sent_date` if never chased).
-2. If **2 or more days** have passed, send a polite chaser from `~~email` —
+2. If **2 or more days** have passed, send a polite chaser from `~~email`:
    friendly, low-pressure, restating that returning the signed NDA unlocks the
    information pack / next steps. Vary wording slightly each time so it does not
    read as a robot. Re-attach the NDA for convenience.

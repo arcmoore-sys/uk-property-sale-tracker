@@ -58,7 +58,7 @@ The skill is done only when all of these are true:
 - [ ] Mandate terms captured into the `deal` block: `mandate_type`, `instruction_date`,
       `fee_basis`, `abort_fee`, `sale_structure`, `vat_position`, `process_type`,
       `quoting_price`, `target_niy`, `launch_date`, `target_exchange`, `target_completion`
-      — undecided terms left blank (not invented), VAT/TOGC flagged for the accountant.
+      with undecided terms left blank (not invented), VAT/TOGC flagged for the accountant.
 - [ ] Vendor AML/KYC run (entity verification, beneficial owners, source of funds,
       sanctions/PEP); outcome and date recorded; evidence filed in `00-mandate/`.
 - [ ] Any unresolved AML/KYC item noted as outstanding and the mandate **not** marked

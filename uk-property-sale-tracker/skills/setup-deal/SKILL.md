@@ -30,7 +30,7 @@ that every skill depends on. Follow it exactly.
 2. **Create the filing system.** Inside the user's connected Cowork folder, create
    the deal folder (slug: lowercase, hyphens) and the full structure from the data
    model. **If a folder with that slug already exists, stop and confirm with the user
-   before writing anything — never overwrite a live deal.** This filing system is
+   before writing anything; never overwrite a live deal.** This filing system is
    aligned with the workbook tabs and the skills, so every document has an obvious
    home:
    - `00-mandate/` (onboard-mandate)
@@ -99,7 +99,7 @@ template, the chaser schedule, and the date the process letter will go out.
 
 The skill is done only when all of these are true:
 
-- [ ] Confirmed the deal slug is new — no existing folder would be overwritten.
+- [ ] Confirmed the deal slug is new, no existing folder would be overwritten.
 - [ ] Deal folder created with every domain folder: `00-mandate/`, `01-dataroom/`
       (+ `title/`, `leases/`, `financial/`, `compliance/`, `planning/`, `management/`,
       `diligence/`), `02-marketing/`, `nda/` + `nda/signed/`, `03-buyers/`,

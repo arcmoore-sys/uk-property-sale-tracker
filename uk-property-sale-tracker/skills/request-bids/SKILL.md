@@ -15,7 +15,7 @@ metadata:
 # Issue the process letter (request for bids)
 
 Sends the process letter to everyone on the list and marks the round as requested.
-In UK practice the request for bids is called a **process letter** — use that term
+In UK practice the request for bids is called a **process letter**; use that term
 in correspondence and when talking to the user. Read
 `${CLAUDE_PLUGIN_ROOT}/shared/data-model.md` first. Respect the deal's `send_mode`
 (`auto` = send; `draft` = stage drafts). This deal defaults to `auto`.
@@ -30,7 +30,7 @@ record the date in `bid_request_date_round_<N>`.
 ## Choose the recipient list
 
 - **Round 1:** all parties who have a signed NDA (`nda_status: signed`). Parties
-  without a signed NDA do not receive the process letter — note them as excluded and
+  without a signed NDA do not receive the process letter; note them as excluded and
   offer to chase their NDA via `manage-ndas`.
 - **Round 2:** by default, all parties who submitted a round-1 bid
   (`bid_status_round_1: received`). Allow the user to narrow this (e.g. only the top
@@ -48,5 +48,5 @@ For each recipient:
    the **bid deadline**, and how to submit. For round 2, frame it as a best-and-final
    process letter and, where appropriate, reference that it follows an initial round
    without disclosing other parties' figures.
-2. Send to all recipients (individually / via Bcc as appropriate — never expose the
+2. Send to all recipients (individually / via Bcc as appropriate; never expose the
    bidder list to o
