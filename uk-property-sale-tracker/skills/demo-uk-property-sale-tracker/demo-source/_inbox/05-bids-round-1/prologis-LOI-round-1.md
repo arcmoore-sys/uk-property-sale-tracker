@@ -1,4 +1,4 @@
-# Letter of Intent / Offer — Round 1  (INBOUND)
+# Letter of Intent / Offer, Round 1  (INBOUND)
 
 **From:** Michael Adeyemi, Prologis UK
 **To:** Adam Moore, acting for Helix Real Estate Partners LLP
@@ -20,4 +20,4 @@ We are pleased to offer as follows for the freehold interest:
 
 Subject to contract. We look forward to the next stage.
 
-Michael Adeyemi — Prologis UK.  *(Demo placeholder — not a real offer.)*
+Michael Adeyemi, Prologis UK.  *(Demo placeholder, not a real offer.)*

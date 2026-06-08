@@ -1,4 +1,4 @@
-# Best & Final Offer — Round 2  (INBOUND)
+# Best & Final Offer, Round 2  (INBOUND)
 
 **From:** David Klein, KKR Real Estate   **Date:** 2026-04-28
 **Property:** Quantum 245, Tamworth
@@ -18,4 +18,4 @@ Following the call for best and final offers, we revise our offer to:
 
 Competitive but slowest timetable; fourth at best & final. Subject to contract.
 
-David Klein — KKR Real Estate.  *(Demo placeholder.)*
+David Klein, KKR Real Estate.  *(Demo placeholder.)*

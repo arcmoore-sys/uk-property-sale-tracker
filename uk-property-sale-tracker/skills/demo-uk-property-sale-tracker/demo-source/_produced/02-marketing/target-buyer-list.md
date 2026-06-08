@@ -1,4 +1,4 @@
-# Target buyer list — Quantum 245, Tamworth
+# Target buyer list, Quantum 245, Tamworth
 
 Qualified logistics investors approached at launch (selection):
 

@@ -1,4 +1,4 @@
-# Best & Final Offer — Round 2  (INBOUND)
+# Best & Final Offer, Round 2  (INBOUND)
 
 **From:** Anya Petrova, Brookfield Asset Management   **Date:** 2026-04-28
 **Property:** Quantum 245, Tamworth
@@ -18,4 +18,4 @@ Following the call for best and final offers, we revise our offer to:
 
 Improved and de-risked at R2 but third. Subject to contract.
 
-Anya Petrova — Brookfield Asset Management.  *(Demo placeholder.)*
+Anya Petrova, Brookfield Asset Management.  *(Demo placeholder.)*

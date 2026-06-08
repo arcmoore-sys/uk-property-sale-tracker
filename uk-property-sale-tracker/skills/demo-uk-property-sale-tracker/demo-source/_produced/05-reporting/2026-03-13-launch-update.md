@@ -1,4 +1,4 @@
-# Client update — launch week  (Quantum 245, Tamworth)
+# Client update, launch week  (Quantum 245, Tamworth)
 
 **To:** Helix Real Estate Partners LLP   **Date:** 2026-03-13
 

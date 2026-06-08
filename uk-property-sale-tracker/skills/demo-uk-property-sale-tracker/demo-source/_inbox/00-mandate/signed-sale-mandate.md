@@ -1,6 +1,6 @@
-# Signed Sale Mandate  (INBOUND — returned by client)
+# Signed Sale Mandate  (INBOUND, returned by client)
 
-**From:** Caroline Webb, Fund Director — Helix Real Estate Partners LLP
+**From:** Caroline Webb, Fund Director, Helix Real Estate Partners LLP
 **To:** Adam Moore, Director
 **Date:** 2026-02-16
 **Re:** Quantum 245, Birch Coppice Business Park, Tamworth, Staffordshire B78 1SE
@@ -17,8 +17,8 @@ instruct you on a **sole agency** basis to market and sell the freehold interest
 - Abort fee: £20,000 + VAT if the vendor withdraws after launch
 - Sale structure: Asset sale
 - VAT: Opted to tax; sale to proceed as a TOGC
-- Process: Informal tender — two rounds (round 2 best & final)
+- Process: Informal tender, two rounds (round 2 best & final)
 
-Signed for and on behalf of Helix Real Estate Partners LLP — C. Webb, 16 Feb 2026.
+Signed for and on behalf of Helix Real Estate Partners LLP, C. Webb, 16 Feb 2026.
 
-*(Demo placeholder — not a real executed document.)*
+*(Demo placeholder, not a real executed document.)*

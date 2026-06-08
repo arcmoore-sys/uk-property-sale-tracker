@@ -1,4 +1,4 @@
-# Letter of Intent / Offer — Round 1  (INBOUND)
+# Letter of Intent / Offer, Round 1  (INBOUND)
 
 **From:** Anya Petrova, Brookfield Asset Management
 **To:** Adam Moore, acting for Helix Real Estate Partners LLP
@@ -20,4 +20,4 @@ We are pleased to offer as follows for the freehold interest:
 
 Subject to contract. We look forward to the next stage.
 
-Anya Petrova — Brookfield Asset Management.  *(Demo placeholder — not a real offer.)*
+Anya Petrova, Brookfield Asset Management.  *(Demo placeholder, not a real offer.)*

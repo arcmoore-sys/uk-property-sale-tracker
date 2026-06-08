@@ -1,7 +1,7 @@
-# Fee invoice  *(EXAMPLE — placeholder)*
+# Fee invoice  *(EXAMPLE, placeholder)*
 
 **To:** Helix Real Estate Partners LLP   **Invoice date:** 2026-06-05
-**Re:** Agency fee — sale of Quantum 245, Tamworth
+**Re:** Agency fee, sale of Quantum 245, Tamworth
 
 | Item | Amount |
 |---|---|

@@ -1,6 +1,6 @@
 # Proof of funds + AML evidence  (INBOUND)
 
-**Buyer:** SEGRO plc  — contact Rebecca Towers
+**Buyer:** SEGRO plc , contact Rebecca Towers
 **Property:** Quantum 245, Tamworth   **Date:** 2026-03-20
 
 - AML / KYC: corporate KYC pack and beneficial-owner IDs received; SmartSearch

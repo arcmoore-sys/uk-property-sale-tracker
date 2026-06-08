@@ -110,7 +110,7 @@ def write_snapshot(deal_folder, tracker):
     buyers = tracker["buyers"]
     signed = sum(1 for b in buyers if b.get("nda_status") == "signed")
     qual = sum(1 for b in buyers if b.get("aml_status") == "clear" and b.get("pof_status") == "verified")
-    lines = [f"# {d.get('name','')} — tracker snapshot", "",
+    lines = [f"# {d.get('name','')}, tracker snapshot", "",
              f"- Stage: **{d.get('current_stage','')}**  |  Round: {d.get('current_round',0)}",
              f"- Client: {d.get('client','')}  |  Quoting: {d.get('quoting_price','')}",
              f"- Buyers: {len(buyers)}  |  NDAs signed: {signed}  |  Qualified: {qual}  |  Bids logged: {len(tracker['bids'])}",
@@ -118,7 +118,7 @@ def write_snapshot(deal_folder, tracker):
              + (f"  |  Actual completion: {d['actual_completion']}" if d.get('actual_completion') else ""), ""]
     if tracker["preferred_bidder"].get("buyer"):
         pb = tracker["preferred_bidder"]
-        lines.append(f"- Preferred bidder: **{pb['buyer']}** at £{pb.get('price',0):,.0f} — {pb.get('hot_status','')}")
+        lines.append(f"- Preferred bidder: **{pb['buyer']}** at £{pb.get('price',0):,.0f}, {pb.get('hot_status','')}")
         lines.append("")
     lines.append("| Buyer | Company | NDA | AML | PoF | R1 | R2 |")
     lines.append("|---|---|---|---|---|---|---|")
@@ -137,7 +137,7 @@ def log_correspondence(deal_folder, stage, copied):
             f.write("# Correspondence log\n\n")
     today = datetime.date.today().isoformat()
     with open(path, "a") as f:
-        f.write(f"## {stage['id']} — {stage['title']}  ({today})\n")
+        f.write(f"## {stage['id']}, {stage['title']}  ({today})\n")
         if copied:
             for c in copied:
                 f.write(f"- Filed: `{c}`\n")

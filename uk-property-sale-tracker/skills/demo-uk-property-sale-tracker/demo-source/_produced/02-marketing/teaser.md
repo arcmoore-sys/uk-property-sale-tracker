@@ -1,4 +1,4 @@
-# Investment Teaser — Quantum 245, Tamworth
+# Investment Teaser, Quantum 245, Tamworth
 
 **Prime single-let logistics investment, Birch Coppice, Tamworth**
 
@@ -9,4 +9,4 @@
 - **Quoting £55,000,000 (5.15% NIY)**
 - For sale by informal tender. Data room access on signed NDA.
 
-Adam Moore, Director — arcmoore@gmail.com.  *(Demo placeholder.)*
+Adam Moore, Director, arcmoore@gmail.com.  *(Demo placeholder.)*

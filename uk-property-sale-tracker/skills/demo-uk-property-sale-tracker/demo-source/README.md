@@ -1,15 +1,15 @@
-# demo-source — the dummy inbox + staging engine
+# demo-source, the dummy inbox + staging engine
 
 This folder powers the `demo-uk-property-sale-tracker` run skill. It is a self-contained
-demo of a fictional UK industrial deal — **Quantum 245, Tamworth** (single-let logistics,
-vendor Helix Real Estate Partners, tenant GXO Logistics) — driven from instruction to
+demo of a fictional UK industrial deal, **Quantum 245, Tamworth** (single-let logistics,
+vendor Helix Real Estate Partners, tenant GXO Logistics), driven from instruction to
 completion. Everything here is invented and every document is a clearly-labelled placeholder.
 
 ## What's inside
 
 | Path | Purpose |
 |---|---|
-| `_inbox/` | The **dummy inbound feed** — documents that "arrive" during a live mandate and only get pulled into the deal folder when the skill runs. Grouped by stage: `00-mandate`, `01-dataroom`, `02-enquiries`, `03-signed-ndas`, `04-qualification`, `05-bids-round-1`, `06-bids-round-2`, `07-legals`. |
+| `_inbox/` | The **dummy inbound feed**, documents that "arrive" during a live mandate and only get pulled into the deal folder when the skill runs. Grouped by stage: `00-mandate`, `01-dataroom`, `02-enquiries`, `03-signed-ndas`, `04-qualification`, `05-bids-round-1`, `06-bids-round-2`, `07-legals`. |
 | `_produced/` | **Agent-produced outputs** filed during the run: teaser, IM and buyer list (`02-marketing`), the two process letters (`bids`), Heads of Terms + exclusivity (`04-legals`), and the client reports + fee invoice (`05-reporting`). |
 | `demo-script.json` | The **14-stage plan**: per-stage narration, which `_inbox` / `_produced` documents to pull, the simulated schedules, and the tracker patch that stage applies. |
 | `apply_stage.py` | The **staging engine**. Applies one stage to a live deal folder: pulls that stage's files, merges its tracker patch into `tracker.json`, runs the plugin's `refresh_tracker.py`, updates the snapshot and correspondence log, and prints a JSON summary. |
@@ -40,6 +40,6 @@ and completion on 5 June 2026; closing report and fee invoice (£576,000 + VAT) 
 
 - **Nothing here is created for real.** The schedules in `00-setup` are *shown*, not
   created; no email is sent; no document is a binding instrument.
-- Re-running against the same deal folder **resets it** — that is expected.
+- Re-running against the same deal folder **resets it**, that is expected.
 - `tracker.json` is canonical; `mandate-tracker.xlsx` and `tracker-snapshot.md` are rendered
   views. The engine never hand-edits the workbook.

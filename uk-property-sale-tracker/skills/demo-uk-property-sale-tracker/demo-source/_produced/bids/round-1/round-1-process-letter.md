@@ -1,4 +1,4 @@
-# Process letter — Round 1 (call for offers)  *(agent-produced)*
+# Process letter, Round 1 (call for offers)  *(agent-produced)*
 
 **Property:** Quantum 245, Tamworth   **Date issued:** 2026-04-07   **Deadline:** 12:00, 2026-04-07
 

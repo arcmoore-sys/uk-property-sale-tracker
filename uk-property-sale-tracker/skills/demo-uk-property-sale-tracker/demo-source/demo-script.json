@@ -50,7 +50,7 @@
           "name": "Quantum 245, Tamworth",
           "slug": "quantum-245-tamworth",
           "address": "Quantum 245, Birch Coppice Business Park, Tamworth, Staffordshire B78 1SE",
-          "sector": "Industrial / logistics — single-let distribution warehouse",
+          "sector": "Industrial / logistics, single-let distribution warehouse",
           "tenure": "Freehold",
           "client": "Helix Real Estate Partners LLP",
           "mandate_ref": "HELIX-2026-007",
@@ -62,7 +62,7 @@
           "agent_email": "arcmoore@gmail.com",
           "fee_basis": "1.00% of sale price + VAT",
           "abort_fee": "£20,000 + VAT if the vendor withdraws after launch",
-          "process_type": "Informal tender — two rounds (round 2 best & final)",
+          "process_type": "Informal tender, two rounds (round 2 best & final)",
           "send_mode": "auto",
           "quoting_price": "£55,000,000 (5.15% NIY)",
           "target_niy": "5.15%",
@@ -1048,7 +1048,7 @@
           },
           {
             "slug": "barings",
-            "notes": "NDA issued and chased twice; never returned — dropped before round 1."
+            "notes": "NDA issued and chased twice; never returned, dropped before round 1."
           }
         ],
         "tasks": [
@@ -1074,7 +1074,7 @@
       "id": "06-qualify",
       "skill": "qualify-buyer",
       "title": "Qualify buyers (AML + proof of funds)",
-      "narration": "AML/KYC and proof-of-funds evidence for the five signed parties is filed under 03-buyers/ and each is marked clear and verified — cleared to receive the process letter.",
+      "narration": "AML/KYC and proof-of-funds evidence for the five signed parties is filed under 03-buyers/ and each is marked clear and verified, cleared to receive the process letter.",
       "copies": [
         {
           "src": "inbox/04-qualification/segro-proof-of-funds.md",
@@ -1355,7 +1355,7 @@
       "skill": "request-bids",
       "title": "Open round 2 (best & final)",
       "narration": "With client sign-off, the best-and-final process letter goes out to the round-1 bidders and is filed under bids/round-2/. The deal moves into round 2.",
-      "gate": "Opening round 2 is a client decision — the agent recommends it with the bid comparison; the client triggers it.",
+      "gate": "Opening round 2 is a client decision, the agent recommends it with the bid comparison; the client triggers it.",
       "copies": [
         {
           "src": "produced/bids/round-2/round-2-process-letter-best-and-final.md",
@@ -1437,7 +1437,7 @@
           {
             "slug": "abrdn",
             "bid_status_round_2": "declined",
-            "notes": "Withdrew at best & final — redeployed to a competing asset."
+            "notes": "Withdrew at best & final, redeployed to a competing asset."
           }
         ],
         "bids": [
@@ -1448,7 +1448,7 @@
             "niy": 0.0492,
             "deposit_pct": 0.1,
             "funding_type": "Equity (balance sheet)",
-            "pof": "Board approval — unconditional",
+            "pof": "Board approval, unconditional",
             "conditions": "Unconditional, subject to contract",
             "completion": "4 weeks",
             "exclusivity": "Yes (until 2026-05-27)",
@@ -1525,8 +1525,8 @@
       "id": "11-select-hot",
       "skill": "select-and-hot",
       "title": "Select preferred bidder + Heads of Terms",
-      "narration": "The client selects Prologis. Heads of Terms and an exclusivity agreement are drafted into 04-legals/, exclusivity is set to 27 May, and the unsuccessful bidders are notified. This is a judgment gate — the agent drafts; the client approves the winner and the HoT.",
-      "gate": "Preferred-bidder selection and Heads of Terms are gated — the agent drafts and surfaces; the client chooses the winner and approves the HoT.",
+      "narration": "The client selects Prologis. Heads of Terms and an exclusivity agreement are drafted into 04-legals/, exclusivity is set to 27 May, and the unsuccessful bidders are notified. This is a judgment gate, the agent drafts; the client approves the winner and the HoT.",
+      "gate": "Preferred-bidder selection and Heads of Terms are gated, the agent drafts and surfaces; the client chooses the winner and approves the HoT.",
       "copies": [
         {
           "src": "produced/04-legals/heads-of-terms-EXAMPLE.md",
@@ -1796,8 +1796,8 @@
       "id": "13-close",
       "skill": "client-report",
       "title": "Closing report + fee invoice",
-      "narration": "The deal closes. The closing report and the fee invoice (£576,000 + VAT) are filed into 05-reporting/ and sent to the client. Final price £57.6m — 4.7% above the £55.0m quoting price. The mandate is complete.",
-      "gate": "Client-facing reports and the fee invoice respect send_mode — drafted and staged by default; auto-sent only when send_mode is auto.",
+      "narration": "The deal closes. The closing report and the fee invoice (£576,000 + VAT) are filed into 05-reporting/ and sent to the client. Final price £57.6m, 4.7% above the £55.0m quoting price. The mandate is complete.",
+      "gate": "Client-facing reports and the fee invoice respect send_mode, drafted and staged by default; auto-sent only when send_mode is auto.",
       "copies": [
         {
           "src": "produced/05-reporting/2026-06-05-closing-report.md",

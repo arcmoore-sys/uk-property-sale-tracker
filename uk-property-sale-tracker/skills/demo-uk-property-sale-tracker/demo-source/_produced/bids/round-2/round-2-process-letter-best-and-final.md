@@ -1,4 +1,4 @@
-# Process letter — Round 2 (best & final)  *(agent-produced)*
+# Process letter, Round 2 (best & final)  *(agent-produced)*
 
 **Property:** Quantum 245, Tamworth   **Date issued:** 2026-04-28
 
