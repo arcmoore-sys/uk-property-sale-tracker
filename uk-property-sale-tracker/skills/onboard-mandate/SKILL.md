@@ -42,9 +42,29 @@ completes vendor onboarding before marketing starts. Read
 5. **Update the workbook.** Write the changes to `tracker.json`, mark the relevant
    phase 1 rows of `tasks` as `Complete` or `In progress`, then run
    `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>` and
-   regenerate `tracker-snapshot.md`.
+   regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
+   errors.
 
 ## Output
 
 Summarise the mandate terms captured, the vendor AML/KYC status, and anything still
 outstanding before launch. Offer to run `build-dataroom` next.
+
+## Completion checklist
+
+The skill is done only when all of these are true:
+
+- [ ] Deal identified and `tracker.json` loaded (`setup-deal` run first if no folder existed).
+- [ ] Mandate terms captured into the `deal` block: `mandate_type`, `instruction_date`,
+      `fee_basis`, `abort_fee`, `sale_structure`, `vat_position`, `process_type`,
+      `quoting_price`, `target_niy`, `launch_date`, `target_exchange`, `target_completion`
+      — undecided terms left blank (not invented), VAT/TOGC flagged for the accountant.
+- [ ] Vendor AML/KYC run (entity verification, beneficial owners, source of funds,
+      sanctions/PEP); outcome and date recorded; evidence filed in `00-mandate/`.
+- [ ] Any unresolved AML/KYC item noted as outstanding and the mandate **not** marked
+      ready to launch.
+- [ ] Signed mandate and fee agreement filed in `00-mandate/` when supplied.
+- [ ] Phase-1 `tasks` rows updated; `tracker.json` written; `refresh_tracker.py` ran with
+      no formula errors; `tracker-snapshot.md` regenerated.
+- [ ] Summary delivered covering terms, AML/KYC status, and what is outstanding before
+      launch; `build-dataroom` offered.

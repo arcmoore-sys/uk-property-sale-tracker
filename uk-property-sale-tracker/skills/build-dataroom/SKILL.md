@@ -38,10 +38,27 @@ list into a tracked checklist and tells the agent what is still missing. Read
 
 4. **Update the workbook.** Write `tracker.json`, update the phase 2 rows of
    `tasks`, run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`,
-   and regenerate `tracker-snapshot.md`.
+   and regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
+   errors.
 
 ## Output
 
 Report the data room readiness (count in versus total), the outstanding items by
 category, and any launch blockers. Offer to draft a chase note to the client or
 solicitor for the missing documents.
+
+## Completion checklist
+
+The skill is done only when all of these are true:
+
+- [ ] Deal identified and `tracker.json` loaded; `dataroom` seeded from the standard
+      checklist if empty, and tailored to the asset (e.g. headlease/ground lease or
+      sector-specific consents added).
+- [ ] Every document the user has is set `received: Yes` with a date and filed into the
+      matching `01-dataroom/` subfolder; `in_dataroom: Yes` set for anything already on
+      the data room platform.
+- [ ] Outstanding items (`received: No`) listed grouped by category; launch blockers
+      (e.g. missing EPC, no title, unsigned leases) explicitly called out.
+- [ ] Phase-2 `tasks` rows updated; `tracker.json` written; `refresh_tracker.py` ran with
+      no formula errors; `tracker-snapshot.md` regenerated.
+- [ ] Readiness reported (in versus total) and a chase note to client/solicitor offered.
