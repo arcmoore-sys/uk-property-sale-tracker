@@ -4,8 +4,8 @@ description: >
   This skill should be used to add a prospective buyer to a deal by filling out a
   short form. Trigger when the user says "add a buyer", "add buyer", "new buyer",
   "add a prospective buyer", "log a new interested party", "add [name] to the buyer
-  list", or "register an enquiry". It presents a form with three fields — Buyer
-  (contact name), Company, and Contact Email — pre-filled with suggestions mined
+  list", or "register an enquiry". It presents a form with three fields, Buyer
+  (contact name), Company, and Contact Email, pre-filled with suggestions mined
   from the deal's email correspondence, lets the user pick a suggestion or enter
   details manually, writes the buyer into tracker.json, refreshes the workbook, and
   hands off to manage-ndas.
@@ -32,12 +32,12 @@ form's three fields mapped as: **Buyer → `name`, Company → `company`, Contac
    name/address from `deal.name`/`deal.address`, and within the recent window).
    From senders who are **not already** in `tracker.json.buyers` (match on email
    address, case-insensitive), extract candidate values:
-   - **Buyer** — the sender's display/contact name, or a name in the signature.
-   - **Company** — from the signature, sending domain, or message body.
-   - **Contact Email** — the sender address.
+   - **Buyer**: the sender's display/contact name, or a name in the signature.
+   - **Company**: from the signature, sending domain, or message body.
+   - **Contact Email**: the sender address.
    De-duplicate candidates and keep the most recent/complete version of each. If no
    connector is available or nothing relevant is found, skip silently and go straight
-   to manual entry — never invent a buyer or an address.
+   to manual entry; never invent a buyer or an address.
 
 3. **Present the add-buyer form.** Show an elicitation form titled "Buyer details"
    with the three fields. For each field, surface the mined candidates as selectable
