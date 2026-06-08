@@ -1,0 +1,1850 @@
+{
+  "deal_name": "Quantum 245, Tamworth",
+  "deal_slug": "quantum-245-tamworth",
+  "summary": "Fictional UK single-let logistics investment sold by two-round informal tender and taken to completion. Winner: Prologis UK at £57.6m unconditional (4.7% above quoting).",
+  "stages": [
+    {
+      "id": "00-setup",
+      "skill": "setup-deal",
+      "title": "Set up the deal",
+      "narration": "A new instruction lands. We create the deal folder and full filing system, install the master mandate-tracker workbook, copy in the NDA and Heads-of-Terms example templates, write tracker.json, and schedule the recurring chaser, the weekly client report and the internal team standup. From here the tracker is the single source of truth.",
+      "create_structure": true,
+      "schedules": [
+        {
+          "type": "recurring",
+          "name": "NDA chaser",
+          "cron": "0 9 * * 1-5",
+          "prompt": "Run manage-ndas for quantum-245-tamworth: chase any buyer 2+ days overdue since last NDA contact.",
+          "note": "Weekday 09:00."
+        },
+        {
+          "type": "recurring",
+          "name": "Weekly client progress report",
+          "cron": "0 8 * * 1",
+          "prompt": "Run client-report for quantum-245-tamworth and send the weekly progress update to Helix Real Estate Partners LLP.",
+          "recipients": [
+            "Helix Real Estate Partners LLP"
+          ],
+          "note": "Mondays 08:00."
+        },
+        {
+          "type": "recurring",
+          "name": "Internal deal-team standup",
+          "cron": "0 7 * * 1",
+          "prompt": "Post the quantum-245-tamworth status to the deal team: stage, what moved, next action.",
+          "recipients": [
+            "Deal team: Adam Moore (lead), Priya Shah (analyst), James Reid (associate)"
+          ],
+          "note": "Mondays 07:00."
+        },
+        {
+          "type": "one_off",
+          "name": "Round 1 process letter",
+          "fire_at": "2026-04-07T09:00:00",
+          "prompt": "Run request-bids round 1 for quantum-245-tamworth.",
+          "note": "Fires on the agreed round-1 date."
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "name": "Quantum 245, Tamworth",
+          "slug": "quantum-245-tamworth",
+          "address": "Quantum 245, Birch Coppice Business Park, Tamworth, Staffordshire B78 1SE",
+          "sector": "Industrial / logistics — single-let distribution warehouse",
+          "tenure": "Freehold",
+          "client": "Helix Real Estate Partners LLP",
+          "mandate_ref": "HELIX-2026-007",
+          "sale_structure": "Asset sale",
+          "vat_position": "Opted to tax; sale to proceed as a TOGC",
+          "mandate_type": "Sole agency",
+          "instruction_date": "2026-02-16",
+          "agent": "Adam Moore, Director",
+          "agent_email": "arcmoore@gmail.com",
+          "fee_basis": "1.00% of sale price + VAT",
+          "abort_fee": "£20,000 + VAT if the vendor withdraws after launch",
+          "process_type": "Informal tender — two rounds (round 2 best & final)",
+          "send_mode": "auto",
+          "quoting_price": "£55,000,000 (5.15% NIY)",
+          "target_niy": "5.15%",
+          "launch_date": "2026-03-09",
+          "bid_request_date_round_1": "2026-04-07",
+          "bid_request_date_round_2": "2026-04-28",
+          "preferred_bidder_date": "2026-05-06",
+          "hot_date": "2026-05-13",
+          "target_exchange": "2026-06-01",
+          "target_completion": "2026-06-05",
+          "actual_completion": "",
+          "current_round": 0,
+          "current_stage": "Setup"
+        },
+        "tasks": [
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Agree and sign agency / sale mandate",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Confirm fee basis, abort fee, marketing budget",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Confirm sale structure (asset vs share / SPV)",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Run AML / KYC on vendor and beneficial owners",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Confirm VAT position (OTT / TOGC) with client",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Agree process type and timetable",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "onboard-mandate"
+          },
+          {
+            "phase": "1. Mandate & setup",
+            "task": "Create deal folder, tracker and schedules",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "setup-deal"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Collect title documents",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Collect leases, licences, deeds of variation",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Compile and verify tenancy schedule / rent roll",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Gather service charge budgets and accounts",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Obtain EPC(s) and confirm validity",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Obtain asbestos register, FRA, surveys",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Collect deposits, AGAs, guarantees",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Gather planning, building regs, warranties",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Commission / compile vendor due diligence",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "2. Information & data room",
+            "task": "Build and index the data room",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "build-dataroom"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Build and qualify target buyer list",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manual"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Prepare teaser and Information Memorandum",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manual"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Issue teaser, log expressions of interest",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "review-inbox"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Issue NDAs to interested parties",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manage-ndas"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Chase unsigned NDAs (every 2 days)",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manage-ndas"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "File signed NDAs, grant data room access",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "review-inbox"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Run buyer AML / KYC and proof of funds",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "qualify-buyer"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Arrange inspections / tenant liaison",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manual"
+          },
+          {
+            "phase": "3. Marketing & buyers",
+            "task": "Run and log data room Q&A",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manual"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Issue round 1 process letter",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "request-bids"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Receive and log round 1 bids",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "process-bids"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Analyse bids, report to client",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "process-bids"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Issue round 2 best-and-final process letter",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "request-bids"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Log round 2 bids and compare rounds",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "process-bids"
+          },
+          {
+            "phase": "4. Bids & offers",
+            "task": "Notify unsuccessful bidders",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "select-and-hot"
+          },
+          {
+            "phase": "5. Preferred bidder & HoT",
+            "task": "Select preferred bidder with client",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "select-and-hot"
+          },
+          {
+            "phase": "5. Preferred bidder & HoT",
+            "task": "Negotiate and agree Heads of Terms",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "select-and-hot"
+          },
+          {
+            "phase": "5. Preferred bidder & HoT",
+            "task": "Confirm exclusivity / lockout",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "select-and-hot"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Instruct vendor solicitors, issue contract pack",
+            "owner": "Solicitor",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Coordinate CPSE replies and enquiries",
+            "owner": "Solicitor",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Support due diligence and searches",
+            "owner": "Solicitor",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Manage deposit and exchange",
+            "owner": "Solicitor",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Coordinate to completion and apportionments",
+            "owner": "Solicitor",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "6. Legal & completion",
+            "task": "Tenant / managing agent handover",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "track-legals"
+          },
+          {
+            "phase": "7. Reporting & close",
+            "task": "Regular (weekly) client progress reports",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "client-report"
+          },
+          {
+            "phase": "7. Reporting & close",
+            "task": "Close data room, archive records",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "manual"
+          },
+          {
+            "phase": "7. Reporting & close",
+            "task": "Invoice fee and disbursements",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "client-report"
+          },
+          {
+            "phase": "7. Reporting & close",
+            "task": "Issue final closing report to client",
+            "owner": "Agent",
+            "status": "Not started",
+            "due": "",
+            "done": "",
+            "automated_by": "client-report"
+          },
+          {
+            "task": "Create deal folder, tracker and schedules",
+            "status": "Complete",
+            "done": "2026-02-16"
+          }
+        ]
+      }
+    },
+    {
+      "id": "01-onboard",
+      "skill": "onboard-mandate",
+      "title": "Onboard the mandate + vendor AML",
+      "narration": "The countersigned mandate, fee agreement and vendor AML/KYC pack arrive from the client. They are pulled from the inbox into 00-mandate/, the commercial terms are recorded, and the Phase 1 checklist is marked complete.",
+      "copies": [
+        {
+          "src": "inbox/00-mandate",
+          "dest": "00-mandate"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Mandate onboarded"
+        },
+        "tasks": [
+          {
+            "task": "Agree and sign agency / sale mandate",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Confirm fee basis, abort fee, marketing budget",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Confirm sale structure (asset vs share / SPV)",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Run AML / KYC on vendor and beneficial owners",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Confirm VAT position (OTT / TOGC) with client",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Agree process type and timetable",
+            "status": "Complete",
+            "done": "2026-02-20"
+          },
+          {
+            "task": "Create deal folder, tracker and schedules",
+            "status": "Complete",
+            "done": "2026-02-20"
+          }
+        ]
+      }
+    },
+    {
+      "id": "02-dataroom",
+      "skill": "build-dataroom",
+      "title": "Build and index the data room",
+      "narration": "Title, leases, the verified rent roll, service charge accounts, EPC, surveys, planning, warranties and the vendor DD report are delivered. Each is filed into its data-room category, the index is built, and the room is ready to open on a signed NDA.",
+      "copies": [
+        {
+          "src": "inbox/01-dataroom/title",
+          "dest": "01-dataroom/title"
+        },
+        {
+          "src": "inbox/01-dataroom/leases",
+          "dest": "01-dataroom/leases"
+        },
+        {
+          "src": "inbox/01-dataroom/financial",
+          "dest": "01-dataroom/financial"
+        },
+        {
+          "src": "inbox/01-dataroom/compliance",
+          "dest": "01-dataroom/compliance"
+        },
+        {
+          "src": "inbox/01-dataroom/planning",
+          "dest": "01-dataroom/planning"
+        },
+        {
+          "src": "inbox/01-dataroom/management",
+          "dest": "01-dataroom/management"
+        },
+        {
+          "src": "inbox/01-dataroom/diligence",
+          "dest": "01-dataroom/diligence"
+        },
+        {
+          "src": "inbox/01-dataroom/dataroom-delivery-note.md",
+          "dest": "01-dataroom"
+        }
+      ],
+      "write_dataroom_index": true,
+      "tracker": {
+        "deal": {
+          "current_stage": "Data room built"
+        },
+        "dataroom": [
+          {
+            "category": "Title",
+            "document": "Official copies of register and title plan",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-02-23",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Title",
+            "document": "Filed documents / restrictive covenants",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-02-23",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Leasing",
+            "document": "Leases, underleases and counterparts",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-02-26",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Leasing",
+            "document": "Tenancy schedule / rent roll (verified)",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-02-26",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Leasing",
+            "document": "Rent deposit deeds and AGAs / guarantees",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-02-26",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Financial",
+            "document": "Service charge budgets and reconciled accounts",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-02",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Financial",
+            "document": "Arrears report and rent receipts",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-02",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Compliance",
+            "document": "EPC certificate(s)",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-03",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Compliance",
+            "document": "Asbestos register / survey",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-03",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Compliance",
+            "document": "Fire risk assessment",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-03",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Compliance",
+            "document": "Condition / structural / M&E surveys",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-03",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Planning",
+            "document": "Planning consents and conditions",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-04",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Planning",
+            "document": "Building regulations approvals",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-04",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Planning",
+            "document": "Collateral warranties / latent defects cover",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-04",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Management",
+            "document": "Management agreement and managing agent details",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-03",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Diligence",
+            "document": "Vendor due diligence report",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-05",
+            "notes": "Indexed and uploaded"
+          },
+          {
+            "category": "Diligence",
+            "document": "Replies to standard pre-contract enquiries (CPSE)",
+            "received": "Yes",
+            "in_dataroom": "Yes",
+            "date": "2026-03-05",
+            "notes": "Indexed and uploaded"
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Collect title documents",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Collect leases, licences, deeds of variation",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Compile and verify tenancy schedule / rent roll",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Gather service charge budgets and accounts",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Obtain EPC(s) and confirm validity",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Obtain asbestos register, FRA, surveys",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Collect deposits, AGAs, guarantees",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Gather planning, building regs, warranties",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Commission / compile vendor due diligence",
+            "status": "Complete",
+            "done": "2026-03-06"
+          },
+          {
+            "task": "Build and index the data room",
+            "status": "Complete",
+            "done": "2026-03-06"
+          }
+        ]
+      }
+    },
+    {
+      "id": "03-launch",
+      "skill": "review-inbox",
+      "title": "Launch + log expressions of interest",
+      "narration": "The teaser and Information Memorandum go out and the deal launches. Six logistics buyers register interest by email; the inbox sweep adds each as a buyer record (NDA not yet sent) and files the enquiries. A launch-week update goes to the client.",
+      "copies": [
+        {
+          "src": "produced/02-marketing",
+          "dest": "02-marketing"
+        },
+        {
+          "src": "inbox/02-enquiries",
+          "dest": "02-marketing/enquiries"
+        },
+        {
+          "src": "produced/05-reporting/2026-03-13-launch-update.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Launched",
+          "current_round": 0
+        },
+        "buyers": [
+          {
+            "name": "Rebecca Towers",
+            "company": "SEGRO plc",
+            "email": "r.towers@segro.com",
+            "slug": "segro",
+            "enquiry_date": "2026-03-10",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          },
+          {
+            "name": "Michael Adeyemi",
+            "company": "Prologis UK",
+            "email": "m.adeyemi@prologis.com",
+            "slug": "prologis",
+            "enquiry_date": "2026-03-10",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          },
+          {
+            "name": "Anya Petrova",
+            "company": "Brookfield Asset Management",
+            "email": "a.petrova@brookfield.com",
+            "slug": "brookfield",
+            "enquiry_date": "2026-03-11",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          },
+          {
+            "name": "David Klein",
+            "company": "KKR Real Estate",
+            "email": "d.klein@kkr.com",
+            "slug": "kkr",
+            "enquiry_date": "2026-03-11",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          },
+          {
+            "name": "Fiona Stewart",
+            "company": "abrdn",
+            "email": "f.stewart@abrdn.com",
+            "slug": "abrdn",
+            "enquiry_date": "2026-03-12",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          },
+          {
+            "name": "Tom Hargreaves",
+            "company": "Barings Real Estate",
+            "email": "t.hargreaves@barings.com",
+            "slug": "barings",
+            "enquiry_date": "2026-03-13",
+            "nda_status": "not_sent",
+            "nda_sent_date": "",
+            "last_chase_date": "",
+            "chase_count": 0,
+            "nda_signed_date": "",
+            "aml_status": "pending",
+            "pof_status": "pending",
+            "bid_status_round_1": "none",
+            "bid_status_round_2": "none",
+            "bid_status_round_3": "none",
+            "notes": ""
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Build and qualify target buyer list",
+            "status": "Complete",
+            "done": "2026-03-12"
+          },
+          {
+            "task": "Prepare teaser and Information Memorandum",
+            "status": "Complete",
+            "done": "2026-03-12"
+          },
+          {
+            "task": "Issue teaser, log expressions of interest",
+            "status": "Complete",
+            "done": "2026-03-12"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-03-13",
+            "type": "Weekly update",
+            "period": "Launch week",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "Teaser issued; 17 EOIs, 6 NDAs out."
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-ndas",
+      "skill": "manage-ndas",
+      "title": "Issue NDAs (chaser scheduled)",
+      "narration": "Each interested party is sent the NDA from the deal folder and the daily chaser is now live. Barings will be chased twice over the coming days and never returns it.",
+      "tracker": {
+        "deal": {
+          "current_stage": "NDAs issued"
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-11"
+          },
+          {
+            "slug": "prologis",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-11"
+          },
+          {
+            "slug": "brookfield",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-11"
+          },
+          {
+            "slug": "kkr",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-11"
+          },
+          {
+            "slug": "abrdn",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-12"
+          },
+          {
+            "slug": "barings",
+            "nda_status": "sent",
+            "nda_sent_date": "2026-03-13"
+          },
+          {
+            "slug": "barings",
+            "chase_count": 2,
+            "last_chase_date": "2026-03-17",
+            "notes": "NDA issued and chased twice."
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Issue NDAs to interested parties",
+            "status": "Complete",
+            "done": "2026-03-17"
+          },
+          {
+            "task": "Chase unsigned NDAs (every 2 days)",
+            "status": "Complete",
+            "done": "2026-03-17"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05-signed-ndas",
+      "skill": "review-inbox",
+      "title": "File signed NDAs",
+      "narration": "Five signed NDAs come back and are filed into nda/signed/; those buyers are granted data-room access and chasing stops for them. Barings has still not returned its NDA and drops out before round 1. A weekly client update goes out.",
+      "copies": [
+        {
+          "src": "inbox/03-signed-ndas",
+          "dest": "nda/signed"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "NDAs signed"
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "nda_status": "signed",
+            "nda_signed_date": "2026-03-12"
+          },
+          {
+            "slug": "prologis",
+            "nda_status": "signed",
+            "nda_signed_date": "2026-03-12"
+          },
+          {
+            "slug": "brookfield",
+            "nda_status": "signed",
+            "nda_signed_date": "2026-03-13"
+          },
+          {
+            "slug": "kkr",
+            "nda_status": "signed",
+            "nda_signed_date": "2026-03-13"
+          },
+          {
+            "slug": "abrdn",
+            "nda_status": "signed",
+            "nda_signed_date": "2026-03-16"
+          },
+          {
+            "slug": "barings",
+            "notes": "NDA issued and chased twice; never returned — dropped before round 1."
+          }
+        ],
+        "tasks": [
+          {
+            "task": "File signed NDAs, grant data room access",
+            "status": "Complete",
+            "done": "2026-03-16"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-03-20",
+            "type": "Weekly update",
+            "period": "w/c 16 Mar",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "5 NDAs signed; data room open; inspections booked. Barings chased x2."
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-qualify",
+      "skill": "qualify-buyer",
+      "title": "Qualify buyers (AML + proof of funds)",
+      "narration": "AML/KYC and proof-of-funds evidence for the five signed parties is filed under 03-buyers/ and each is marked clear and verified — cleared to receive the process letter.",
+      "copies": [
+        {
+          "src": "inbox/04-qualification/segro-proof-of-funds.md",
+          "dest": "03-buyers/segro"
+        },
+        {
+          "src": "inbox/04-qualification/prologis-proof-of-funds.md",
+          "dest": "03-buyers/prologis"
+        },
+        {
+          "src": "inbox/04-qualification/brookfield-proof-of-funds.md",
+          "dest": "03-buyers/brookfield"
+        },
+        {
+          "src": "inbox/04-qualification/kkr-proof-of-funds.md",
+          "dest": "03-buyers/kkr"
+        },
+        {
+          "src": "inbox/04-qualification/abrdn-proof-of-funds.md",
+          "dest": "03-buyers/abrdn"
+        },
+        {
+          "src": "produced/05-reporting/2026-03-13-launch-update.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Buyers qualified"
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "aml_status": "clear",
+            "pof_status": "verified"
+          },
+          {
+            "slug": "prologis",
+            "aml_status": "clear",
+            "pof_status": "verified"
+          },
+          {
+            "slug": "brookfield",
+            "aml_status": "clear",
+            "pof_status": "verified"
+          },
+          {
+            "slug": "kkr",
+            "aml_status": "clear",
+            "pof_status": "verified"
+          },
+          {
+            "slug": "abrdn",
+            "aml_status": "clear",
+            "pof_status": "verified"
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Run buyer AML / KYC and proof of funds",
+            "status": "Complete",
+            "done": "2026-03-27"
+          },
+          {
+            "task": "Arrange inspections / tenant liaison",
+            "status": "Complete",
+            "done": "2026-03-27"
+          },
+          {
+            "task": "Run and log data room Q&A",
+            "status": "Complete",
+            "done": "2026-03-27"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-03-27",
+            "type": "Weekly update",
+            "period": "w/c 23 Mar",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "Buyer AML/PoF complete for 5; round 1 process letter scheduled 7 Apr."
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-request-r1",
+      "skill": "request-bids",
+      "title": "Issue round 1 process letter",
+      "narration": "The round-1 process letter (call for offers) goes to the five qualified parties and is filed under bids/round-1/. The deal moves into its first bid round.",
+      "copies": [
+        {
+          "src": "produced/bids/round-1/round-1-process-letter.md",
+          "dest": "bids/round-1"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Round 1 open",
+          "current_round": 1
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "bid_status_round_1": "requested"
+          },
+          {
+            "slug": "prologis",
+            "bid_status_round_1": "requested"
+          },
+          {
+            "slug": "brookfield",
+            "bid_status_round_1": "requested"
+          },
+          {
+            "slug": "kkr",
+            "bid_status_round_1": "requested"
+          },
+          {
+            "slug": "abrdn",
+            "bid_status_round_1": "requested"
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Issue round 1 process letter",
+            "status": "Complete",
+            "done": "2026-04-07"
+          }
+        ]
+      }
+    },
+    {
+      "id": "08-process-r1",
+      "skill": "process-bids",
+      "title": "Log round 1 bids + report",
+      "narration": "Five round-1 offers arrive (£52.0m–£54.5m). Each LOI is filed under bids/round-1/, logged to the Bid Log, and a round-1 bid report goes to the client with a recommendation to go to best-and-final.",
+      "copies": [
+        {
+          "src": "inbox/05-bids-round-1",
+          "dest": "bids/round-1"
+        },
+        {
+          "src": "produced/05-reporting/2026-04-09-bid-report-round-1.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Round 1 bids in"
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "bid_status_round_1": "received"
+          },
+          {
+            "slug": "prologis",
+            "bid_status_round_1": "received"
+          },
+          {
+            "slug": "brookfield",
+            "bid_status_round_1": "received"
+          },
+          {
+            "slug": "kkr",
+            "bid_status_round_1": "received"
+          },
+          {
+            "slug": "abrdn",
+            "bid_status_round_1": "received"
+          }
+        ],
+        "bids": [
+          {
+            "buyer": "SEGRO plc",
+            "round": 1,
+            "offer_price": 53500000,
+            "niy": 0.0529,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (REIT balance sheet)",
+            "pof": "Board pre-approval provided",
+            "conditions": "Subject to IC and confirmatory DD",
+            "completion": "6 weeks",
+            "exclusivity": "No",
+            "solicitor": "CMS",
+            "date_received": "2026-04-07",
+            "notes": "Clean, conditional on IC."
+          },
+          {
+            "buyer": "Prologis UK",
+            "round": 1,
+            "offer_price": 54500000,
+            "niy": 0.052,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (balance sheet)",
+            "pof": "Treasury confirmation on file",
+            "conditions": "Subject to contract only",
+            "completion": "6 weeks",
+            "exclusivity": "No",
+            "solicitor": "Hogan Lovells",
+            "date_received": "2026-04-07",
+            "notes": "Cleanest R1; flagged appetite to improve."
+          },
+          {
+            "buyer": "Brookfield Asset Management",
+            "round": 1,
+            "offer_price": 52500000,
+            "niy": 0.0539,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity + debt",
+            "pof": "Equity confirmed; debt indicative",
+            "conditions": "Subject to debt confirmation",
+            "completion": "8 weeks",
+            "exclusivity": "No",
+            "solicitor": "Kirkland & Ellis",
+            "date_received": "2026-04-07",
+            "notes": "Debt the swing factor."
+          },
+          {
+            "buyer": "KKR Real Estate",
+            "round": 1,
+            "offer_price": 53000000,
+            "niy": 0.0534,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (fund)",
+            "pof": "Fund equity confirmation",
+            "conditions": "Subject to IC",
+            "completion": "8 weeks",
+            "exclusivity": "No",
+            "solicitor": "Clifford Chance",
+            "date_received": "2026-04-07",
+            "notes": "Competitive; longer timetable."
+          },
+          {
+            "buyer": "abrdn",
+            "round": 1,
+            "offer_price": 52000000,
+            "niy": 0.0544,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (fund)",
+            "pof": "Proof of funds provided",
+            "conditions": "Subject to IC and committee",
+            "completion": "10 weeks",
+            "exclusivity": "No",
+            "solicitor": "Addleshaw Goddard",
+            "date_received": "2026-04-07",
+            "notes": "Lowest R1; longest timetable."
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Receive and log round 1 bids",
+            "status": "Complete",
+            "done": "2026-04-09"
+          },
+          {
+            "task": "Analyse bids, report to client",
+            "status": "Complete",
+            "done": "2026-04-09"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-04-09",
+            "type": "Bid report",
+            "period": "Round 1",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email + call",
+            "notes": "5 R1 bids £52.0m–£54.5m; recommend best & final."
+          }
+        ]
+      }
+    },
+    {
+      "id": "09-request-r2",
+      "skill": "request-bids",
+      "title": "Open round 2 (best & final)",
+      "narration": "With client sign-off, the best-and-final process letter goes out to the round-1 bidders and is filed under bids/round-2/. The deal moves into round 2.",
+      "gate": "Opening round 2 is a client decision — the agent recommends it with the bid comparison; the client triggers it.",
+      "copies": [
+        {
+          "src": "produced/bids/round-2/round-2-process-letter-best-and-final.md",
+          "dest": "bids/round-2"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Round 2 (best & final) open",
+          "current_round": 2
+        },
+        "buyers": [
+          {
+            "slug": "segro",
+            "bid_status_round_2": "requested"
+          },
+          {
+            "slug": "prologis",
+            "bid_status_round_2": "requested"
+          },
+          {
+            "slug": "brookfield",
+            "bid_status_round_2": "requested"
+          },
+          {
+            "slug": "kkr",
+            "bid_status_round_2": "requested"
+          },
+          {
+            "slug": "abrdn",
+            "bid_status_round_2": "requested"
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Issue round 2 best-and-final process letter",
+            "status": "Complete",
+            "done": "2026-04-28"
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-process-r2",
+      "skill": "process-bids",
+      "title": "Log round 2 bids + compare rounds",
+      "narration": "Four best-and-final offers come in; abrdn withdraws (redeployed). Prologis leads at £57.6m unconditional with a 4-week completion. The round-over-round comparison and a bid report go to the client recommending Prologis as preferred.",
+      "copies": [
+        {
+          "src": "inbox/06-bids-round-2",
+          "dest": "bids/round-2"
+        },
+        {
+          "src": "produced/05-reporting/2026-04-30-bid-report-round-2.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Round 2 bids in"
+        },
+        "buyers": [
+          {
+            "slug": "prologis",
+            "bid_status_round_2": "received"
+          },
+          {
+            "slug": "segro",
+            "bid_status_round_2": "received"
+          },
+          {
+            "slug": "brookfield",
+            "bid_status_round_2": "received"
+          },
+          {
+            "slug": "kkr",
+            "bid_status_round_2": "received"
+          },
+          {
+            "slug": "abrdn",
+            "bid_status_round_2": "declined",
+            "notes": "Withdrew at best & final — redeployed to a competing asset."
+          }
+        ],
+        "bids": [
+          {
+            "buyer": "Prologis UK",
+            "round": 2,
+            "offer_price": 57600000,
+            "niy": 0.0492,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (balance sheet)",
+            "pof": "Board approval — unconditional",
+            "conditions": "Unconditional, subject to contract",
+            "completion": "4 weeks",
+            "exclusivity": "Yes (until 2026-05-27)",
+            "solicitor": "Hogan Lovells",
+            "date_received": "2026-04-28",
+            "notes": "WINNER. Best price, fastest completion, no conditions."
+          },
+          {
+            "buyer": "SEGRO plc",
+            "round": 2,
+            "offer_price": 56800000,
+            "niy": 0.0499,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (REIT balance sheet)",
+            "pof": "Board approval confirmed",
+            "conditions": "Subject to contract",
+            "completion": "6 weeks",
+            "exclusivity": "No",
+            "solicitor": "CMS",
+            "date_received": "2026-04-28",
+            "notes": "Strong; pipped on price and speed."
+          },
+          {
+            "buyer": "Brookfield Asset Management",
+            "round": 2,
+            "offer_price": 55900000,
+            "niy": 0.0507,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity + debt",
+            "pof": "Debt now credit-approved",
+            "conditions": "Subject to contract",
+            "completion": "6 weeks",
+            "exclusivity": "No",
+            "solicitor": "Kirkland & Ellis",
+            "date_received": "2026-04-28",
+            "notes": "Improved and de-risked but third."
+          },
+          {
+            "buyer": "KKR Real Estate",
+            "round": 2,
+            "offer_price": 55200000,
+            "niy": 0.0513,
+            "deposit_pct": 0.1,
+            "funding_type": "Equity (fund)",
+            "pof": "Updated IC confirmation",
+            "conditions": "Subject to IC",
+            "completion": "8 weeks",
+            "exclusivity": "No",
+            "solicitor": "Clifford Chance",
+            "date_received": "2026-04-28",
+            "notes": "Fourth at best & final."
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Log round 2 bids and compare rounds",
+            "status": "Complete",
+            "done": "2026-04-30"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-04-30",
+            "type": "Bid report",
+            "period": "Round 2 (best & final)",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email + call",
+            "notes": "4 R2 bids; Prologis £57.6m unconditional; recommend as preferred."
+          }
+        ]
+      }
+    },
+    {
+      "id": "11-select-hot",
+      "skill": "select-and-hot",
+      "title": "Select preferred bidder + Heads of Terms",
+      "narration": "The client selects Prologis. Heads of Terms and an exclusivity agreement are drafted into 04-legals/, exclusivity is set to 27 May, and the unsuccessful bidders are notified. This is a judgment gate — the agent drafts; the client approves the winner and the HoT.",
+      "gate": "Preferred-bidder selection and Heads of Terms are gated — the agent drafts and surfaces; the client chooses the winner and approves the HoT.",
+      "copies": [
+        {
+          "src": "produced/04-legals/heads-of-terms-EXAMPLE.md",
+          "dest": "04-legals"
+        },
+        {
+          "src": "produced/04-legals/exclusivity-agreement-EXAMPLE.md",
+          "dest": "04-legals"
+        },
+        {
+          "src": "produced/05-reporting/2026-05-13-hot-note.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Preferred bidder / HoT",
+          "preferred_bidder_date": "2026-05-06",
+          "hot_date": "2026-05-13"
+        },
+        "preferred_bidder": {
+          "buyer": "Prologis UK",
+          "price": 57600000,
+          "exclusivity_until": "2026-05-27",
+          "hot_status": "Agreed and signed 2026-05-13",
+          "notes": "Unconditional, subject to contract; 4-week completion; 10% deposit on exchange."
+        },
+        "legals": [
+          {
+            "milestone": "Preferred bidder confirmed",
+            "responsible": "Agent",
+            "status": "Complete",
+            "target_date": "2026-05-06",
+            "actual_date": "2026-05-06",
+            "notes": ""
+          },
+          {
+            "milestone": "Heads of Terms agreed and circulated",
+            "responsible": "Agent",
+            "status": "Complete",
+            "target_date": "2026-05-13",
+            "actual_date": "2026-05-13",
+            "notes": ""
+          },
+          {
+            "milestone": "Exclusivity / lockout in place",
+            "responsible": "Agent",
+            "status": "Complete",
+            "target_date": "2026-05-13",
+            "actual_date": "2026-05-13",
+            "notes": ""
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Notify unsuccessful bidders",
+            "status": "Complete",
+            "done": "2026-05-13"
+          },
+          {
+            "task": "Select preferred bidder with client",
+            "status": "Complete",
+            "done": "2026-05-13"
+          },
+          {
+            "task": "Negotiate and agree Heads of Terms",
+            "status": "Complete",
+            "done": "2026-05-13"
+          },
+          {
+            "task": "Confirm exclusivity / lockout",
+            "status": "Complete",
+            "done": "2026-05-13"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-05-13",
+            "type": "Ad hoc",
+            "period": "Heads of Terms",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "HoT agreed with Prologis; exclusivity to 27 May; solicitors instructed."
+          }
+        ]
+      }
+    },
+    {
+      "id": "12-legals",
+      "skill": "track-legals",
+      "title": "Legals → exchange → completion",
+      "narration": "Solicitor correspondence flows in and is filed into 04-legals/: solicitors instructed, contract pack issued, searches, CPSE replies, enquiries answered, board/funding confirmed, contract engrossed, exchange on 1 June with the 10% deposit, and completion on 5 June. The legal milestones advance to complete and an exchange note goes to the client.",
+      "copies": [
+        {
+          "src": "inbox/07-legals",
+          "dest": "04-legals"
+        },
+        {
+          "src": "produced/05-reporting/2026-06-01-exchange-note.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Exchanged → completion",
+          "actual_completion": "2026-06-05"
+        },
+        "legals": [
+          {
+            "milestone": "Vendor solicitors instructed",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-14",
+            "actual_date": "2026-05-14",
+            "notes": ""
+          },
+          {
+            "milestone": "Contract pack issued to buyer solicitors",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-18",
+            "actual_date": "2026-05-18",
+            "notes": ""
+          },
+          {
+            "milestone": "Buyer searches submitted",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-21",
+            "actual_date": "2026-05-21",
+            "notes": ""
+          },
+          {
+            "milestone": "CPSE replies provided",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-25",
+            "actual_date": "2026-05-25",
+            "notes": ""
+          },
+          {
+            "milestone": "Pre-contract enquiries answered",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-27",
+            "actual_date": "2026-05-27",
+            "notes": ""
+          },
+          {
+            "milestone": "Buyer board / IC approval confirmed",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-28",
+            "actual_date": "2026-05-28",
+            "notes": ""
+          },
+          {
+            "milestone": "Buyer funding confirmed",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-28",
+            "actual_date": "2026-05-28",
+            "notes": ""
+          },
+          {
+            "milestone": "Contract approved / engrossed",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-05-30",
+            "actual_date": "2026-05-30",
+            "notes": ""
+          },
+          {
+            "milestone": "Exchange of contracts",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-06-01",
+            "actual_date": "2026-06-01",
+            "notes": ""
+          },
+          {
+            "milestone": "Deposit received",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-06-01",
+            "actual_date": "2026-06-01",
+            "notes": ""
+          },
+          {
+            "milestone": "Completion",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-06-05",
+            "actual_date": "2026-06-05",
+            "notes": ""
+          },
+          {
+            "milestone": "Completion statement and apportionments",
+            "responsible": "Solicitor",
+            "status": "Complete",
+            "target_date": "2026-06-05",
+            "actual_date": "2026-06-05",
+            "notes": ""
+          },
+          {
+            "milestone": "Notices to tenants / rent authority",
+            "responsible": "Agent",
+            "status": "Complete",
+            "target_date": "2026-06-05",
+            "actual_date": "2026-06-05",
+            "notes": ""
+          },
+          {
+            "milestone": "Managing agent handover",
+            "responsible": "Agent",
+            "status": "Complete",
+            "target_date": "2026-06-05",
+            "actual_date": "2026-06-05",
+            "notes": ""
+          }
+        ],
+        "tasks": [
+          {
+            "task": "Instruct vendor solicitors, issue contract pack",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Coordinate CPSE replies and enquiries",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Support due diligence and searches",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Manage deposit and exchange",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Coordinate to completion and apportionments",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Tenant / managing agent handover",
+            "status": "Complete",
+            "done": "2026-06-05"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-06-01",
+            "type": "Ad hoc",
+            "period": "Exchange",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "Exchanged at £57.6m; 10% deposit held; completion 5 Jun."
+          }
+        ]
+      }
+    },
+    {
+      "id": "13-close",
+      "skill": "client-report",
+      "title": "Closing report + fee invoice",
+      "narration": "The deal closes. The closing report and the fee invoice (£576,000 + VAT) are filed into 05-reporting/ and sent to the client. Final price £57.6m — 4.7% above the £55.0m quoting price. The mandate is complete.",
+      "gate": "Client-facing reports and the fee invoice respect send_mode — drafted and staged by default; auto-sent only when send_mode is auto.",
+      "copies": [
+        {
+          "src": "produced/05-reporting/2026-06-05-closing-report.md",
+          "dest": "05-reporting"
+        },
+        {
+          "src": "produced/05-reporting/2026-06-05-fee-invoice-EXAMPLE.md",
+          "dest": "05-reporting"
+        }
+      ],
+      "tracker": {
+        "deal": {
+          "current_stage": "Completed"
+        },
+        "tasks": [
+          {
+            "task": "Regular (weekly) client progress reports",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Close data room, archive records",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Invoice fee and disbursements",
+            "status": "Complete",
+            "done": "2026-06-05"
+          },
+          {
+            "task": "Issue final closing report to client",
+            "status": "Complete",
+            "done": "2026-06-05"
+          }
+        ],
+        "reporting": [
+          {
+            "date": "2026-06-05",
+            "type": "Closing report",
+            "period": "Deal close",
+            "sent_to": "Helix Real Estate Partners LLP",
+            "method": "Email",
+            "notes": "Completed £57.6m (4.7% above quoting). Fee invoice raised."
+          }
+        ]
+      }
+    }
+  ]
+}

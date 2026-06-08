@@ -50,6 +50,7 @@ produces client progress and closing reports.
 | Skill | `select-and-hot` | Select the preferred bidder, draft Heads of Terms, notify underbidders |
 | Skill | `track-legals` | Track conveyancing from solicitor instruction through exchange and completion |
 | Skill | `client-report` | Generate/log client progress reports, the closing report, and the fee invoice |
+| Skill | `demo-uk-property-sale-tracker` | Guided start-to-finish demo: runs a fictional industrial deal (Quantum 245, Tamworth) through all 14 stages, pulling dummy inbound docs from a bundled inbox stage by stage, pausing after each for the presenter |
 | Agent | `deal-desk` | Orchestrates the running mandate: status + next step, inbox-to-pipeline routing, drafts buyer emails, books buyer/client meetings, gates decisions |
 | Asset | `assets/NDA-template-EXAMPLE.md`, `assets/HOT-template-EXAMPLE.md` | Example NDA and Heads of Terms copied into every deal folder as placeholders for solicitor review |
 | Shared | `shared/data-model.md` | Folder structure, tracker schema, workbook tabs and write pattern all skills follow
