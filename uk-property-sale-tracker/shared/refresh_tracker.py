@@ -194,6 +194,7 @@ def populate(folder, data):
     if not os.path.exists(out):
         import shutil
         shutil.copy2(TEMPLATE, out)        # pull the firm's template, do not rebuild
+        os.chmod(out, 0o644)               # copy2 preserves the template's read-only bits; make the deal copy writable
     wb = openpyxl.load_workbook(out)
     deal = data.get("deal", {})
 
@@ -234,6 +235,8 @@ def populate(folder, data):
             r = 4 + i; ensure_row_style(ws, r, extent, ncols)
             setv(ws,r,1,it.get("date","")); setv(ws,r,2,it.get("type","")); setv(ws,r,3,it.get("period",""))
             setv(ws,r,4,it.get("sent_to","")); setv(ws,r,5,it.get("method","")); setv(ws,r,6,it.get("notes",""))
+    if os.path.exists(out):
+        os.chmod(out, 0o644)               # workbook may have been copied read-only (copy2 preserves template bits); ensure writable before saving in place
     wb.save(out)
     return out
 

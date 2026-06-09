@@ -1,8 +1,17 @@
 {
   "name": "uk-property-sale-tracker",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Runs a UK property agent's sell-side mandate end to end: onboards the mandate and vendor AML, builds and chases the data room, maintains a live buyer tracker and master workbook, adds prospective buyers from a form with email-mined suggestions, issues and chases NDAs, qualifies buyers (AML/proof of funds), runs multi-round bids with a round-over-round change log, selects the preferred bidder and drafts Heads of Terms, tracks legals through exchange and completion, and produces client progress and closing reports. Includes the Deal Desk orchestrator agent that drives the live deal forward, drafts buyer follow-up and chaser emails, and books meetings with buyers and the client at each stage, plus a demo walkthrough skill that runs a fictional industrial deal from instruction to completion using a bundled dummy inbox.",
-  "author": { "name": "Adam Moore" },
+  "author": {
+    "name": "Adam Moore"
+  },
   "homepage": "https://github.com/arcmoore-sys/uk-property-sale-tracker",
-  "keywords": ["property", "real-estate", "uk", "sell-side", "mandate", "conveyancing"]
+  "keywords": [
+    "property",
+    "real-estate",
+    "uk",
+    "sell-side",
+    "mandate",
+    "conveyancing"
+  ]
 }

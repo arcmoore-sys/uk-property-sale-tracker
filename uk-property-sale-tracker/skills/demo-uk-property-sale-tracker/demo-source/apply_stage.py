@@ -157,8 +157,9 @@ def run_stage(deal_folder, stage):
     if stage.get("create_structure"):
         for t in TREE:
             os.makedirs(os.path.join(deal_folder, t), exist_ok=True)
-        shutil.copy2(os.path.join(ASSETS, "mandate-tracker-template.xlsx"),
-                     os.path.join(deal_folder, "mandate-tracker.xlsx"))
+        xlsx_dest = os.path.join(deal_folder, "mandate-tracker.xlsx")
+        shutil.copy2(os.path.join(ASSETS, "mandate-tracker-template.xlsx"), xlsx_dest)
+        os.chmod(xlsx_dest, 0o644)         # copy2 preserves the template's read-only bits; refresh must reopen this workbook to save in place
         shutil.copy2(os.path.join(ASSETS, "NDA-template-EXAMPLE.docx"),
                      os.path.join(deal_folder, "nda", "NDA-template-EXAMPLE.docx"))
         shutil.copy2(os.path.join(ASSETS, "HOT-template-EXAMPLE.docx"),
