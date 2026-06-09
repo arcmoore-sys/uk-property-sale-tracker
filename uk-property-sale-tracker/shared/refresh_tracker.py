@@ -1,360 +1,241 @@
 #!/usr/bin/env python3
-"""Rebuild mandate-tracker.xlsx for a deal from its tracker.json.
+"""Populate a deal's mandate-tracker.xlsx from its tracker.json.
 
 Usage: python refresh_tracker.py <deal-folder>
 
-This is the only code that writes the workbook. Skills update tracker.json then
-call this. Formatting and the live summary formulas come from the bundled builder,
-so the rendered file is always consistent with the template.
+Design (v0.6.0): the workbook is the firm's master template copied verbatim into
+the deal folder at setup (assets/mandate-tracker-template.xlsx). This script opens
+that copied workbook and writes the live state from tracker.json into the existing
+tabs IN PLACE, preserving all of the template's formatting, formulas, dropdowns and
+layout. It never rebuilds the workbook from code. If the workbook is missing (for
+example a skill ran before setup copied it), the template is copied in first.
+
+Skills update tracker.json, then call this. tracker.json stays canonical; the
+workbook is the rendered, human-facing view.
 """
 import json, os, sys, subprocess, glob
-from openpyxl import Workbook
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-from openpyxl.worksheet.datavalidation import DataValidation
+from copy import copy
+import openpyxl
 
-DARK, MID, LIGHT, GREY, LINE, ACCENT = "1F4E45", "2E6B5E", "E8F0EE", "F2F2F2", "C9C9C9", "B98A2E"
-FONT = "Arial"
-thin = Side(style="thin", color=LINE)
-border = Border(left=thin, right=thin, top=thin, bottom=thin)
+HERE = os.path.dirname(os.path.abspath(__file__))           # .../shared
+def plugin_root():
+    env = os.environ.get("CLAUDE_PLUGIN_ROOT")
+    if env and os.path.isdir(os.path.join(env, "assets")):
+        return env
+    return os.path.dirname(HERE)
+ROOT = plugin_root()
+TEMPLATE = os.path.join(ROOT, "assets", "mandate-tracker-template.xlsx")
 
-# ---- seed checklists (used when the json arrays are empty) -------------------
-SEED_TASKS = [
- ("1. Mandate & setup","Agree and sign agency / sale mandate","Agent","onboard-mandate"),
- ("1. Mandate & setup","Confirm fee basis, abort fee, marketing budget","Agent","onboard-mandate"),
- ("1. Mandate & setup","Confirm sale structure (asset vs share / SPV)","Agent","onboard-mandate"),
- ("1. Mandate & setup","Run AML / KYC on vendor and beneficial owners","Agent","onboard-mandate"),
- ("1. Mandate & setup","Confirm VAT position (OTT / TOGC) with client","Agent","onboard-mandate"),
- ("1. Mandate & setup","Agree process type and timetable","Agent","onboard-mandate"),
- ("1. Mandate & setup","Create deal folder, tracker and schedules","Agent","setup-deal"),
- ("2. Information & data room","Collect title documents","Agent","build-dataroom"),
- ("2. Information & data room","Collect leases, licences, deeds of variation","Agent","build-dataroom"),
- ("2. Information & data room","Compile and verify tenancy schedule / rent roll","Agent","build-dataroom"),
- ("2. Information & data room","Gather service charge budgets and accounts","Agent","build-dataroom"),
- ("2. Information & data room","Obtain EPC(s) and confirm validity","Agent","build-dataroom"),
- ("2. Information & data room","Obtain asbestos register, FRA, surveys","Agent","build-dataroom"),
- ("2. Information & data room","Collect deposits, AGAs, guarantees","Agent","build-dataroom"),
- ("2. Information & data room","Gather planning, building regs, warranties","Agent","build-dataroom"),
- ("2. Information & data room","Commission / compile vendor due diligence","Agent","build-dataroom"),
- ("2. Information & data room","Build and index the data room","Agent","build-dataroom"),
- ("3. Marketing & buyers","Build and qualify target buyer list","Agent","manual"),
- ("3. Marketing & buyers","Prepare teaser and Information Memorandum","Agent","manual"),
- ("3. Marketing & buyers","Issue teaser, log expressions of interest","Agent","review-inbox"),
- ("3. Marketing & buyers","Issue NDAs to interested parties","Agent","manage-ndas"),
- ("3. Marketing & buyers","Chase unsigned NDAs (every 2 days)","Agent","manage-ndas"),
- ("3. Marketing & buyers","File signed NDAs, grant data room access","Agent","review-inbox"),
- ("3. Marketing & buyers","Run buyer AML / KYC and proof of funds","Agent","qualify-buyer"),
- ("3. Marketing & buyers","Arrange inspections / tenant liaison","Agent","manual"),
- ("3. Marketing & buyers","Run and log data room Q&A","Agent","manual"),
- ("4. Bids & offers","Issue round 1 process letter","Agent","request-bids"),
- ("4. Bids & offers","Receive and log round 1 bids","Agent","process-bids"),
- ("4. Bids & offers","Analyse bids, report to client","Agent","process-bids"),
- ("4. Bids & offers","Issue round 2 best-and-final process letter","Agent","request-bids"),
- ("4. Bids & offers","Log round 2 bids and compare rounds","Agent","process-bids"),
- ("4. Bids & offers","Notify unsuccessful bidders","Agent","select-and-hot"),
- ("5. Preferred bidder & HoT","Select preferred bidder with client","Agent","select-and-hot"),
- ("5. Preferred bidder & HoT","Negotiate and agree Heads of Terms","Agent","select-and-hot"),
- ("5. Preferred bidder & HoT","Confirm exclusivity / lockout","Agent","select-and-hot"),
- ("6. Legal & completion","Instruct vendor solicitors, issue contract pack","Solicitor","track-legals"),
- ("6. Legal & completion","Coordinate CPSE replies and enquiries","Solicitor","track-legals"),
- ("6. Legal & completion","Support due diligence and searches","Solicitor","track-legals"),
- ("6. Legal & completion","Manage deposit and exchange","Solicitor","track-legals"),
- ("6. Legal & completion","Coordinate to completion and apportionments","Solicitor","track-legals"),
- ("6. Legal & completion","Tenant / managing agent handover","Agent","track-legals"),
- ("7. Reporting & close","Regular (weekly) client progress reports","Agent","client-report"),
- ("7. Reporting & close","Close data room, archive records","Agent","manual"),
- ("7. Reporting & close","Invoice fee and disbursements","Agent","client-report"),
- ("7. Reporting & close","Issue final closing report to client","Agent","client-report"),
-]
-SEED_DOCS = [
- ("Title","Official copies of register and title plan"),
- ("Title","Filed documents / restrictive covenants"),
- ("Leasing","Leases, underleases and counterparts"),
- ("Leasing","Licences and deeds of variation / side letters"),
- ("Leasing","Tenancy schedule / rent roll (verified)"),
- ("Leasing","Rent deposit deeds and AGAs / guarantees"),
- ("Financial","Service charge budgets and reconciled accounts"),
- ("Financial","Arrears report and rent receipts"),
- ("Compliance","EPC certificate(s)"),
- ("Compliance","Asbestos register / survey"),
- ("Compliance","Fire risk assessment"),
- ("Compliance","Condition / structural / M&E surveys"),
- ("Planning","Planning consents and conditions"),
- ("Planning","Building regulations approvals"),
- ("Planning","Collateral warranties / latent defects cover"),
- ("Management","Management agreement and managing agent details"),
- ("Diligence","Vendor due diligence report"),
- ("Diligence","Replies to standard pre-contract enquiries (CPSE)"),
-]
-SEED_LEGALS = [
- "Preferred bidder confirmed","Heads of Terms agreed and circulated","Exclusivity / lockout in place",
- "Vendor solicitors instructed","Contract pack issued to buyer solicitors","CPSE replies provided",
- "Buyer searches submitted","Pre-contract enquiries answered","Buyer board / IC approval confirmed",
- "Buyer funding confirmed","Contract approved / engrossed","Exchange of contracts","Deposit received",
- "Completion","Completion statement and apportionments","Notices to tenants / rent authority",
- "Managing agent handover",
-]
 NDA_MAP = {"not_sent":"Not sent","sent":"Sent","signed":"Signed"}
 AML_MAP = {"pending":"Pending","clear":"Clear","flagged":"Flagged"}
 POF_MAP = {"pending":"Pending","verified":"Verified","insufficient":"Insufficient"}
 BID_MAP = {"none":"None","requested":"Requested","received":"Received","declined":"Declined"}
+YESNO   = {True:"Yes",False:"No","yes":"Yes","no":"No","y":"Yes","n":"No",
+           "true":"Yes","false":"No","n/a":"N/A","na":"N/A"}
 
-def t(ws, text, span):
-    c = ws.cell(row=1, column=1, value=text)
-    c.font = Font(name=FONT, bold=True, size=15, color="FFFFFF")
-    c.fill = PatternFill("solid", fgColor=DARK)
-    c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=span)
-    ws.row_dimensions[1].height = 30
+def yn(v):
+    if isinstance(v, bool): return YESNO[v]
+    if v is None: return ""
+    s = str(v).strip()
+    return YESNO.get(s.lower(), s)
 
-def hr(ws, row, headers):
-    for i, h in enumerate(headers, start=1):
-        c = ws.cell(row=row, column=i, value=h)
-        c.font = Font(name=FONT, bold=True, size=10, color="FFFFFF")
-        c.fill = PatternFill("solid", fgColor=MID)
-        c.alignment = Alignment(horizontal="left", vertical="center", wrap_text=True, indent=1)
-        c.border = border
-    ws.row_dimensions[row].height = 30
+def norm(s):
+    return " ".join(str(s or "").split()).strip().lower()
 
-def bnd(ws, row, text, span):
-    c = ws.cell(row=row, column=1, value=text)
-    c.font = Font(name=FONT, bold=True, size=10, color=DARK)
-    for col in range(1, span+1):
-        cc = ws.cell(row=row, column=col); cc.fill = PatternFill("solid", fgColor=LIGHT); cc.border = border
-    c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
-    ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=span)
+# ---- styling helpers (preserve the template, extend it consistently) --------
+def styled_extent(ws, col=1, start=4, cap=2000):
+    """Last contiguous row (from start) whose first column carries a border."""
+    last = start - 1
+    r = start
+    while r <= cap:
+        if ws.cell(row=r, column=col).border.left.style is not None:
+            last = r; r += 1
+        else:
+            break
+    return last
 
-def cols(ws, widths):
-    for c, w in widths.items(): ws.column_dimensions[c].width = w
+def copy_row_style(ws, src_row, dst_row, ncols):
+    for c in range(1, ncols + 1):
+        s = ws.cell(row=src_row, column=c); d = ws.cell(row=dst_row, column=c)
+        d.font = copy(s.font); d.fill = copy(s.fill); d.border = copy(s.border)
+        d.alignment = copy(s.alignment); d.number_format = s.number_format
+    ws.row_dimensions[dst_row].height = ws.row_dimensions[src_row].height
 
-def dc(ws, row, col, value=None):
-    c = ws.cell(row=row, column=col, value=value)
-    c.font = Font(name=FONT, size=10)
-    c.alignment = Alignment(vertical="center", wrap_text=True, indent=1)
-    c.border = border
-    return c
+def ensure_row_style(ws, r, extent, ncols):
+    """For rows past the template's styled band, mirror a parity-matched band row
+    (row 4 even / row 5 odd) so zebra striping and borders continue."""
+    if r > extent:
+        copy_row_style(ws, 4 if r % 2 == 0 else 5, r, ncols)
 
-def zebra(ws, row, ncol):
-    if row % 2 == 0:
-        for col in range(1, ncol+1):
-            ws.cell(row=row, column=col).fill = PatternFill("solid", fgColor=GREY)
+def setv(ws, r, c, v):
+    ws.cell(row=r, column=c).value = v
 
-def build(data):
-    deal = data.get("deal", {})
-    wb = Workbook()
+def clear_values(ws, rows, cols):
+    for r in rows:
+        for c in cols:
+            ws.cell(row=r, column=c).value = None
 
-    # 1 Mandate Summary
-    ws = wb.active; ws.title = "Mandate Summary"; t(ws, "MANDATE SUMMARY", 4)
-    cols(ws, {"A":26,"B":34,"C":26,"D":34})
-    def kv(row, k1, v1, k2, v2):
-        a = ws.cell(row=row, column=1, value=k1); a.font = Font(name=FONT, bold=True, size=10, color=DARK)
-        a.alignment = Alignment(vertical="center", indent=1); a.border = border
-        dc(ws, row, 2, v1)
-        c = ws.cell(row=row, column=3, value=k2); c.font = Font(name=FONT, bold=True, size=10, color=DARK)
-        c.alignment = Alignment(vertical="center", indent=1); c.border = border
-        dc(ws, row, 4, v2)
+# ---- per-tab population ------------------------------------------------------
+def pop_mandate(ws, deal):
     g = deal.get
-    bnd(ws,3,"DEAL",4)
-    kv(4,"Property name",g("name",""),"Mandate ref",g("mandate_ref",""))
-    kv(5,"Address",g("address",""),"Sector / asset type",g("sector",""))
-    kv(6,"Client / vendor",g("client",""),"Tenure",g("tenure",""))
-    kv(7,"Sale structure (asset / share)",g("sale_structure",""),"VAT position (OTT / TOGC)",g("vat_position",""))
-    bnd(ws,8,"MANDATE TERMS",4)
-    kv(9,"Mandate type",g("mandate_type",""),"Instruction date",g("instruction_date",""))
-    kv(10,"Agent / surveyor",g("agent",""),"Fee basis",g("fee_basis",""))
-    kv(11,"Sending email account",g("agent_email",""),"Abort fee",g("abort_fee",""))
-    kv(12,"Process type",g("process_type",""),"Send mode (auto / draft)",g("send_mode",""))
-    kv(13,"Quoting price",g("quoting_price",""),"Target NIY",g("target_niy",""))
-    bnd(ws,14,"KEY DATES",4)
-    kv(15,"Launch date",g("launch_date",""),"Round 1 process letter",g("bid_request_date_round_1",""))
-    kv(16,"Round 2 (best & final)",g("bid_request_date_round_2",""),"Preferred bidder selected",g("preferred_bidder_date",""))
-    kv(17,"Heads of Terms agreed",g("hot_date",""),"Target exchange",g("target_exchange",""))
-    kv(18,"Target completion",g("target_completion",""),"Actual completion",g("actual_completion",""))
-    bnd(ws,20,"LIVE STATUS (auto-calculated)",4)
-    def metric(row, col, label, formula, fmt=None, gold=False):
-        l = ws.cell(row=row, column=col, value=label); l.font = Font(name=FONT, bold=True, size=10, color=DARK)
-        l.alignment = Alignment(vertical="center", indent=1); l.border = border
-        v = ws.cell(row=row, column=col+1, value=formula)
-        v.font = Font(name=FONT, bold=True, size=11, color=(ACCENT if gold else "000000"))
-        v.alignment = Alignment(vertical="center", indent=1); v.border = border
-        if fmt: v.number_format = fmt
-    metric(21,1,"Buyers on list","=COUNTA('Buyer Pipeline'!A4:A203)")
-    metric(21,3,"NDAs issued","=COUNTIF('Buyer Pipeline'!E4:E203,\"Sent\")+COUNTIF('Buyer Pipeline'!E4:E203,\"Signed\")")
-    metric(22,1,"NDAs signed","=COUNTIF('Buyer Pipeline'!E4:E203,\"Signed\")")
-    metric(22,3,"Buyers qualified (AML + PoF)","=COUNTIFS('Buyer Pipeline'!J4:J203,\"Clear\",'Buyer Pipeline'!K4:K203,\"Verified\")")
-    metric(23,1,"Round 1 bids received","=COUNTIF('Buyer Pipeline'!L4:L203,\"Received\")")
-    metric(23,3,"Round 2 bids received","=COUNTIF('Buyer Pipeline'!M4:M203,\"Received\")")
-    metric(24,1,"Round 3 bids received","=COUNTIF('Buyer Pipeline'!N4:N203,\"Received\")")
-    metric(24,3,"Highest offer (any round)","=MAX('Bid Log'!B4:D203)", fmt='£#,##0;(£#,##0);"-"', gold=True)
-    metric(25,1,"Tasks outstanding","=COUNTIF('Task Checklist'!D4:D200,\"Not started\")+COUNTIF('Task Checklist'!D4:D200,\"In progress\")")
-    metric(25,3,"Current stage", g("current_stage",""))
-    n = ws.cell(row=27, column=1, value="Counts pull live from the other tabs and update on recalculation.")
-    n.font = Font(name=FONT, italic=True, size=9, color="666666")
-    ws.merge_cells(start_row=27, start_column=1, end_row=27, end_column=4)
-    ws.freeze_panes = "A2"
+    pairs = {
+        "B4":g("name",""),  "D4":g("mandate_ref",""),
+        "B5":g("address",""),"D5":g("sector",""),
+        "B6":g("client",""), "D6":g("tenure",""),
+        "B7":g("sale_structure",""),"D7":g("vat_position",""),
+        "B9":g("mandate_type",""),  "D9":g("instruction_date",""),
+        "B10":g("agent",""),        "D10":g("fee_basis",""),
+        "B11":g("agent_email",""),  "D11":g("abort_fee",""),
+        "B12":g("process_type",""), "D12":g("send_mode",""),
+        "B13":g("quoting_price",""),"D13":g("target_niy",""),
+        "B15":g("launch_date",""),  "D15":g("bid_request_date_round_1",""),
+        "B16":g("bid_request_date_round_2",""),"D16":g("preferred_bidder_date",""),
+        "B17":g("hot_date",""),     "D17":g("target_exchange",""),
+        "B18":g("target_completion",""),"D18":g("actual_completion",""),
+        "D25":g("current_stage",""),
+    }
+    for coord, val in pairs.items():
+        ws[coord] = val   # value only; formulas in B21:B25/D21:D24 untouched
 
-    # 2 Task Checklist
-    ws2 = wb.create_sheet("Task Checklist"); t(ws2,"TASK CHECKLIST  (full sale lifecycle)",7)
-    cols(ws2, {"A":18,"B":48,"C":16,"D":16,"E":13,"F":13,"G":30})
-    hr(ws2,3,["Phase","Task","Owner","Status","Due date","Date done","Automated by"])
-    tasks = data.get("tasks") or [{"phase":p,"task":tk,"owner":o,"status":"Not started","due":"","done":"","automated_by":a} for (p,tk,o,a) in SEED_TASKS]
-    r = 4
-    for it in tasks:
-        dc(ws2,r,1,it.get("phase","")); dc(ws2,r,2,it.get("task","")); dc(ws2,r,3,it.get("owner",""))
-        dc(ws2,r,4,it.get("status","Not started")); dc(ws2,r,5,it.get("due","")); dc(ws2,r,6,it.get("done","")); dc(ws2,r,7,it.get("automated_by",""))
-        zebra(ws2,r,7); r += 1
-    dv = DataValidation(type="list", formula1='"Not started,In progress,Complete,N/A,Blocked"', allow_blank=True)
-    ws2.add_data_validation(dv); dv.add(f"D4:D{r-1}"); ws2.freeze_panes = "A4"
+def pop_keyed(ws, items, key_field, key_col, write_map, ncols, start=4):
+    """Update rows that match an existing key cell; append unmatched rows."""
+    extent = styled_extent(ws)
+    index = {}
+    r = start
+    while r <= extent:
+        kv = ws.cell(row=r, column=key_col).value
+        if kv not in (None, ""):
+            index[norm(kv)] = r
+        r += 1
+    next_row = extent + 1
+    for it in items:
+        k = norm(it.get(key_field, ""))
+        if not k:
+            continue
+        if k in index:
+            row = index[k]
+        else:
+            row = next_row; next_row += 1
+            ensure_row_style(ws, row, extent, ncols)
+            setv(ws, row, key_col, it.get(key_field, ""))
+        for col, fn in write_map.items():
+            val = fn(it)
+            if val is not None:
+                setv(ws, row, col, val)
 
-    # 3 Information & Data Room
-    ws3 = wb.create_sheet("Information & Data Room"); t(ws3,"INFORMATION & DATA ROOM CHECKLIST",6)
-    cols(ws3, {"A":22,"B":42,"C":14,"D":16,"E":13,"F":30})
-    hr(ws3,3,["Category","Document","Received","In data room","Date","Notes"])
-    docs = data.get("dataroom") or [{"category":c,"document":d,"received":"No","in_dataroom":"No","date":"","notes":""} for (c,d) in SEED_DOCS]
-    r = 4
-    for it in docs:
-        dc(ws3,r,1,it.get("category","")); dc(ws3,r,2,it.get("document","")); dc(ws3,r,3,it.get("received","No"))
-        dc(ws3,r,4,it.get("in_dataroom","No")); dc(ws3,r,5,it.get("date","")); dc(ws3,r,6,it.get("notes",""))
-        zebra(ws3,r,6); r += 1
-    dv = DataValidation(type="list", formula1='"Yes,No,N/A"', allow_blank=True)
-    ws3.add_data_validation(dv); dv.add(f"C4:D{r-1}"); ws3.freeze_panes = "A4"
+def pop_buyers(ws, buyers):
+    extent = styled_extent(ws); ncols = 15
+    clear_values(ws, range(4, extent + 1), range(1, ncols + 1))
+    for i, b in enumerate(buyers):
+        r = 4 + i
+        ensure_row_style(ws, r, extent, ncols)
+        setv(ws,r,1,b.get("name","")); setv(ws,r,2,b.get("company","")); setv(ws,r,3,b.get("email",""))
+        setv(ws,r,4,b.get("enquiry_date","")); setv(ws,r,5,NDA_MAP.get(b.get("nda_status",""),""))
+        setv(ws,r,6,b.get("nda_sent_date","")); setv(ws,r,7,b.get("last_chase_date",""))
+        setv(ws,r,8,b.get("chase_count","")); setv(ws,r,9,b.get("nda_signed_date",""))
+        setv(ws,r,10,AML_MAP.get(b.get("aml_status",""),"")); setv(ws,r,11,POF_MAP.get(b.get("pof_status",""),""))
+        setv(ws,r,12,BID_MAP.get(b.get("bid_status_round_1",""),"")); setv(ws,r,13,BID_MAP.get(b.get("bid_status_round_2",""),""))
+        setv(ws,r,14,BID_MAP.get(b.get("bid_status_round_3",""),"")); setv(ws,r,15,b.get("notes",""))
 
-    # 4 Buyer Pipeline
-    ws4 = wb.create_sheet("Buyer Pipeline"); t(ws4,"BUYER PIPELINE",15)
-    cols(ws4, {"A":22,"B":22,"C":26,"D":13,"E":12,"F":13,"G":13,"H":11,"I":13,"J":12,"K":13,"L":11,"M":11,"N":11,"O":30})
-    hr(ws4,3,["Buyer","Company","Contact email","Enquiry date","NDA status","NDA sent","Last chase","Chase count","NDA signed","AML/KYC","Proof of funds","R1 bid","R2 bid","R3 bid","Notes"])
-    buyers = data.get("buyers", [])
-    last = max(4 + len(buyers), 24)
-    for r in range(4, last):
-        b = buyers[r-4] if r-4 < len(buyers) else {}
-        dc(ws4,r,1,b.get("name","")); dc(ws4,r,2,b.get("company","")); dc(ws4,r,3,b.get("email",""))
-        dc(ws4,r,4,b.get("enquiry_date","")); dc(ws4,r,5,NDA_MAP.get(b.get("nda_status",""),""))
-        dc(ws4,r,6,b.get("nda_sent_date","")); dc(ws4,r,7,b.get("last_chase_date",""))
-        dc(ws4,r,8,b.get("chase_count","") if b else ""); dc(ws4,r,9,b.get("nda_signed_date",""))
-        dc(ws4,r,10,AML_MAP.get(b.get("aml_status",""),"")); dc(ws4,r,11,POF_MAP.get(b.get("pof_status",""),""))
-        dc(ws4,r,12,BID_MAP.get(b.get("bid_status_round_1",""),"")); dc(ws4,r,13,BID_MAP.get(b.get("bid_status_round_2",""),""))
-        dc(ws4,r,14,BID_MAP.get(b.get("bid_status_round_3",""),"")); dc(ws4,r,15,b.get("notes","")); zebra(ws4,r,15)
-    for spec,colrange in [('"Not sent,Sent,Signed"',"E"),('"Pending,Clear,Flagged"',"J"),('"Pending,Verified,Insufficient"',"K")]:
-        dv = DataValidation(type="list", formula1=spec, allow_blank=True); ws4.add_data_validation(dv); dv.add(f"{colrange}4:{colrange}203")
-    for colrange in ("L","M","N"):
-        dv = DataValidation(type="list", formula1='"None,Requested,Received,Declined"', allow_blank=True); ws4.add_data_validation(dv); dv.add(f"{colrange}4:{colrange}203")
-    ws4.freeze_panes = "A4"
-
-    # 5 Bid Log  (three-round client-ready comparison matrix)
+def pop_bidlog(ws, deal, bids):
     from datetime import date as _date
-    ws5 = wb.create_sheet("Bid Log"); t(ws5,"BID COMPARISON",15)
-    cols(ws5, {"A":24,"B":15,"C":15,"D":15,"E":15,"F":15,"G":15,"H":9,"I":9,"J":9,"K":18,"L":30,"M":16,"N":18,"O":26})
-    # subtitle row (part of the copy-paste block)
-    cr = int(deal.get("current_round",0) or 0) or 1
-    sub = ws5.cell(row=2, column=1, value=f"{deal.get('name','(property)')}:  Round {cr} bid comparison        Prepared {_date.today().strftime('%d %b %Y')}")
-    sub.font = Font(name=FONT, bold=True, size=10, color=DARK)
-    sub.alignment = Alignment(vertical="center", indent=1)
-    ws5.merge_cells(start_row=2, start_column=1, end_row=2, end_column=15)
-    ws5.row_dimensions[2].height = 20
-    hr(ws5,3,["Bidder","R1 price","R2 price","R3 price","Chg R1>R2","Chg R2>R3","Latest offer","R1 NIY","R2 NIY","R3 NIY","Movement","Conditions (latest)","Completion (latest)","Funding / PoF","Notes"])
-
-    bids = data.get("bids", [])
-    by_buyer = {}
+    cr = int(deal.get("current_round", 0) or 0) or 1
+    ws["A2"] = f"{deal.get('name','(property)')}:  Round {cr} bid comparison        Prepared {_date.today().strftime('%d %b %Y')}"
+    GREEN, RED, GREY = "1F7A3D", "C0392B", "777777"
+    by = {}
     for bd in bids:
         try: rd = int(bd.get("round",1) or 1)
         except (TypeError, ValueError): rd = 1
-        by_buyer.setdefault(bd.get("buyer",""), {})[rd] = bd
-    money = '£#,##0;(£#,##0);"-"'; pct = '0.00%'
-    GREEN, RED, GREYTXT = "1F7A3D", "C0392B", "777777"
-
+        by.setdefault(bd.get("buyer",""), {})[rd] = bd
     rows = []
-    for buyer, rounds in by_buyer.items():
+    for buyer, rounds in by.items():
         if not buyer: continue
-        present = sorted(rounds)
-        latest_r = present[-1]; latest = rounds[latest_r]
+        present = sorted(rounds); latest_r = present[-1]; latest = rounds[latest_r]
         lp = latest.get("offer_price")
         if len(present) == 1:
-            mv, mc = ("Round 1", GREYTXT) if present[0]==1 else (f"New in R{present[0]}", GREEN)
+            mv, mc = ("Round 1", GREY) if present[0]==1 else (f"New in R{present[0]}", GREEN)
         else:
             a = rounds[present[-2]].get("offer_price"); b = rounds[present[-1]].get("offer_price")
             if isinstance(a,(int,float)) and isinstance(b,(int,float)):
-                mv, mc = ("Improved", GREEN) if b>a else (("Reduced", RED) if b<a else ("Held", GREYTXT))
-            else:
-                mv, mc = "Updated", GREYTXT
+                mv, mc = ("Improved", GREEN) if b>a else (("Reduced", RED) if b<a else ("Held", GREY))
+            else: mv, mc = "Updated", GREY
         if cr >= 2 and latest_r < cr:
             mv, mc = f"Withdrawn (last R{latest_r})", RED
-        rows.append({"buyer":buyer, "rounds":rounds,
-                     "latest":latest, "lp": lp if isinstance(lp,(int,float)) else -1, "mv":mv, "mc":mc})
+        rows.append({"buyer":buyer,"rounds":rounds,"latest":latest,
+                     "lp": lp if isinstance(lp,(int,float)) else -1,"mv":mv,"mc":mc})
     rows.sort(key=lambda x: x["lp"], reverse=True)
 
-    n_rows = max(len(rows), 8)
-    for i in range(n_rows):
+    extent = styled_extent(ws)            # data band (notes sit below it)
+    band = list(range(4, extent + 1))
+    clear_values(ws, band, [1,2,3,4,8,9,10,11,12,13,14,15])   # keep E,F,G formulas
+    from openpyxl.styles import Font
+    for i, rec in enumerate(rows):
         r = 4 + i
-        rec = rows[i] if i < len(rows) else None
-        leader = (rec is not None and i == 0 and rec["lp"] >= 0)
-        # bidder
-        cb = dc(ws5,r,1, rec["buyer"] if rec else "")
-        if leader: cb.font = Font(name=FONT, size=10, bold=True)
-        # prices per round (B,C,D)
-        for ci, rd in ((2,1),(3,2),(4,3)):
-            val = ""
-            if rec and rd in rec["rounds"]:
-                v = rec["rounds"][rd].get("offer_price")
-                val = v if isinstance(v,(int,float)) else ""
-            c = dc(ws5,r,ci,val); c.number_format = money
-        # deltas as formulas (E,F)
-        ce = dc(ws5,r,5, f'=IF(AND(B{r}<>"",C{r}<>""),C{r}-B{r},"")'); ce.number_format = money
-        cf = dc(ws5,r,6, f'=IF(AND(C{r}<>"",D{r}<>""),D{r}-C{r},"")'); cf.number_format = money
-        # latest offer formula (G)
-        cg = dc(ws5,r,7, f'=IF(D{r}<>"",D{r},IF(C{r}<>"",C{r},IF(B{r}<>"",B{r},"")))'); cg.number_format = money
-        if leader: cg.font = Font(name=FONT, size=10, bold=True, color=ACCENT)
-        # NIY per round (H,I,J)
-        for ci, rd in ((8,1),(9,2),(10,3)):
-            val = ""
-            if rec and rd in rec["rounds"]:
-                v = rec["rounds"][rd].get("niy")
-                val = v if isinstance(v,(int,float)) else ""
-            c = dc(ws5,r,ci,val); c.number_format = pct
-        # movement (K)
-        ck = dc(ws5,r,11, rec["mv"] if rec else "")
-        if rec: ck.font = Font(name=FONT, size=10, bold=True, color=rec["mc"])
-        # latest qualitative terms (L,M,N,O)
-        lt = rec["latest"] if rec else {}
-        dc(ws5,r,12, lt.get("conditions",""))
-        dc(ws5,r,13, lt.get("completion",""))
-        dc(ws5,r,14, lt.get("pof","") or lt.get("funding_type",""))
-        dc(ws5,r,15, lt.get("notes",""))
-        zebra(ws5,r,15)
+        if r > extent: break
+        leader = (i == 0 and rec["lp"] >= 0)
+        setv(ws,r,1,rec["buyer"])
+        for col, rd in ((2,1),(3,2),(4,3)):
+            v = rec["rounds"].get(rd, {}).get("offer_price")
+            setv(ws,r,col, v if isinstance(v,(int,float)) else None)
+        for col, rd in ((8,1),(9,2),(10,3)):
+            v = rec["rounds"].get(rd, {}).get("niy")
+            setv(ws,r,col, v if isinstance(v,(int,float)) else None)
+        km = ws.cell(row=r, column=11); km.value = rec["mv"]
+        km.font = Font(name=km.font.name, size=km.font.size, bold=True, color=rec["mc"])
+        lt = rec["latest"]
+        setv(ws,r,12,lt.get("conditions","")); setv(ws,r,13,lt.get("completion",""))
+        setv(ws,r,14,lt.get("pof","") or lt.get("funding_type","")); setv(ws,r,15,lt.get("notes",""))
+        if leader:
+            cg = ws.cell(row=r, column=7)
+            cg.font = Font(name=cg.font.name, size=cg.font.size, bold=True, color="B98A2E")
 
-    # legend + paste guidance (below the copy-paste block, not part of it)
-    lr = 4 + n_rows + 1
-    leg = ws5.cell(row=lr, column=1, value="Movement: Improved / Held / Reduced compares a bidder's latest round with their previous round. Withdrawn = bid in an earlier round, none in the current round. New = first bid after round 1.")
-    leg.font = Font(name=FONT, italic=True, size=9, color="666666")
-    ws5.merge_cells(start_row=lr, start_column=1, end_row=lr, end_column=15)
-    pn = ws5.cell(row=lr+1, column=1, value=f"To send to the client, select rows 1 to {3+n_rows} and copy into the report. Figures are exclusive of VAT and costs.")
-    pn.font = Font(name=FONT, italic=True, size=9, color="666666")
-    ws5.merge_cells(start_row=lr+1, start_column=1, end_row=lr+1, end_column=15)
-    ws5.freeze_panes = "A4"
+def populate(folder, data):
+    out = os.path.join(folder, "mandate-tracker.xlsx")
+    if not os.path.exists(out):
+        import shutil
+        shutil.copy2(TEMPLATE, out)        # pull the firm's template, do not rebuild
+    wb = openpyxl.load_workbook(out)
+    deal = data.get("deal", {})
 
-    # 6 Legal & Completion
-    ws6 = wb.create_sheet("Legal & Completion"); t(ws6,"LEGAL & COMPLETION MILESTONES",6)
-    cols(ws6, {"A":42,"B":18,"C":16,"D":14,"E":14,"F":30})
-    hr(ws6,3,["Milestone","Responsible","Status","Target date","Actual date","Notes"])
-    legals = data.get("legals") or [{"milestone":m,"responsible":"","status":"Not started","target_date":"","actual_date":"","notes":""} for m in SEED_LEGALS]
-    r = 4
-    for it in legals:
-        dc(ws6,r,1,it.get("milestone","")); dc(ws6,r,2,it.get("responsible","")); dc(ws6,r,3,it.get("status","Not started"))
-        dc(ws6,r,4,it.get("target_date","")); dc(ws6,r,5,it.get("actual_date","")); dc(ws6,r,6,it.get("notes","")); zebra(ws6,r,6); r += 1
-    dv = DataValidation(type="list", formula1='"Not started,In progress,Complete,N/A"', allow_blank=True)
-    ws6.add_data_validation(dv); dv.add(f"C4:C{r-1}"); ws6.freeze_panes = "A4"
-
-    # 7 Client Reporting
-    ws7 = wb.create_sheet("Client Reporting"); t(ws7,"CLIENT REPORTING LOG",6)
-    cols(ws7, {"A":14,"B":22,"C":20,"D":24,"E":14,"F":34})
-    hr(ws7,3,["Date","Report type","Period covered","Sent to","Method","Summary / notes"])
-    rep = data.get("reporting", [])
-    last = max(4 + len(rep), 24)
-    for r in range(4, last):
-        it = rep[r-4] if r-4 < len(rep) else {}
-        dc(ws7,r,1,it.get("date","")); dc(ws7,r,2,it.get("type","")); dc(ws7,r,3,it.get("period",""))
-        dc(ws7,r,4,it.get("sent_to","")); dc(ws7,r,5,it.get("method","")); dc(ws7,r,6,it.get("notes","")); zebra(ws7,r,6)
-    dv = DataValidation(type="list", formula1='"Weekly update,Bid report,Ad hoc,Closing report"', allow_blank=True)
-    ws7.add_data_validation(dv); dv.add("B4:B203"); ws7.freeze_panes = "A4"
-    return wb
+    if "Mandate Summary" in wb.sheetnames:
+        pop_mandate(wb["Mandate Summary"], deal)
+    if "Task Checklist" in wb.sheetnames:
+        pop_keyed(wb["Task Checklist"], data.get("tasks", []), "task", 2, {
+            3: lambda it: it.get("owner") or None,
+            4: lambda it: it.get("status") or None,
+            5: lambda it: it.get("due") or None,
+            6: lambda it: it.get("done") or None,
+            7: lambda it: it.get("automated_by") or None,
+        }, ncols=7)
+    if "Information & Data Room" in wb.sheetnames:
+        pop_keyed(wb["Information & Data Room"], data.get("dataroom", []), "document", 2, {
+            1: lambda it: it.get("category") or None,
+            3: lambda it: yn(it.get("received")) or None,
+            4: lambda it: yn(it.get("in_dataroom")) or None,
+            5: lambda it: it.get("date") or None,
+            6: lambda it: it.get("notes") or None,
+        }, ncols=6)
+    if "Buyer Pipeline" in wb.sheetnames:
+        pop_buyers(wb["Buyer Pipeline"], data.get("buyers", []))
+    if "Bid Log" in wb.sheetnames:
+        pop_bidlog(wb["Bid Log"], deal, data.get("bids", []))
+    if "Legal & Completion" in wb.sheetnames:
+        pop_keyed(wb["Legal & Completion"], data.get("legals", []), "milestone", 1, {
+            2: lambda it: it.get("responsible") or None,
+            3: lambda it: it.get("status") or None,
+            4: lambda it: it.get("target_date") or None,
+            5: lambda it: it.get("actual_date") or None,
+            6: lambda it: it.get("notes") or None,
+        }, ncols=6)
+    if "Client Reporting" in wb.sheetnames:
+        ws = wb["Client Reporting"]; extent = styled_extent(ws); ncols = 6
+        clear_values(ws, range(4, extent + 1), range(1, ncols + 1))
+        for i, it in enumerate(data.get("reporting", [])):
+            r = 4 + i; ensure_row_style(ws, r, extent, ncols)
+            setv(ws,r,1,it.get("date","")); setv(ws,r,2,it.get("type","")); setv(ws,r,3,it.get("period",""))
+            setv(ws,r,4,it.get("sent_to","")); setv(ws,r,5,it.get("method","")); setv(ws,r,6,it.get("notes",""))
+    wb.save(out)
+    return out
 
 def find_recalc():
     for p in ["/mnt/skills/public/xlsx/scripts/recalc.py",
@@ -370,8 +251,7 @@ def main():
     folder = sys.argv[1]
     with open(os.path.join(folder, "tracker.json")) as f:
         data = json.load(f)
-    out = os.path.join(folder, "mandate-tracker.xlsx")
-    build(data).save(out)
+    out = populate(folder, data)
     rc = find_recalc()
     if rc:
         try:

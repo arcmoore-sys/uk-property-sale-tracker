@@ -10,11 +10,14 @@ data room, qualification, Heads of Terms, legals and reporting skills.
 
 1. **`tracker.json` is canonical.** All skills read and write state here. It is
    structured, robust to parse, and never depends on reading back from Excel.
-2. **`mandate-tracker.xlsx` is the master human-facing document.** It is a rendered
-   view of `tracker.json`, never hand-parsed by a skill. After any skill changes
-   `tracker.json` it calls the shared refresh routine to repopulate the workbook.
-   This is what "the template is added to every project folder and auto-populated"
-   means in practice.
+2. **`mandate-tracker.xlsx` is the master human-facing document.** It is the firm's
+   styled template (`assets/mandate-tracker-template.xlsx`) copied verbatim into the
+   deal folder at setup and then populated from `tracker.json`, never hand-parsed by
+   a skill. After any skill changes `tracker.json` it calls the shared refresh
+   routine, which writes the live values into the existing workbook IN PLACE,
+   preserving the template's formatting, formulas, dropdowns and layout. The workbook
+   is never rebuilt from code, so the template is the single source of styling: edit
+   it and every future deal inherits the new look.
 3. `tracker-snapshot.md` remains a lightweight markdown mirror for quick reading.
 
 So the write pattern for every skill is: update `tracker.json`, then run
@@ -133,19 +136,25 @@ The refresh routine maps these to the workbook's title-case display values
 
 ## Seed lists
 
-If `tasks`, `dataroom` or `legals` are empty when the workbook is rendered, the
-refresh routine seeds the standard checklist for that tab (defined inside
-`refresh_tracker.py`) so the workbook is useful from day one. Skills overlay real
-values onto these seeded rows by matching on `task`, `document` or `milestone`.
+The standard checklists for the Task Checklist, Information & Data Room and Legal &
+Completion tabs live in the template workbook itself, so a freshly copied workbook is
+useful from day one even when those `tracker.json` arrays are empty. Skills overlay
+real values onto these seeded rows by matching on `task`, `document` or `milestone`;
+rows with no match are appended below the seeded band with the template's row styling
+carried down.
 
 ## The refresh routine
 
-`shared/refresh_tracker.py <deal-folder>` reads `<deal-folder>/tracker.json`,
-rebuilds `mandate-tracker.xlsx` from the bundled template builder (so formatting and
-the live summary formulas are always correct), injects every state block into its
-tab, recalculates with the xlsx skill's `recalc.py`, and reports any formula errors.
-Skills must call it after writing `tracker.json`. They must never edit the workbook
-cell by cell.
+`shared/refresh_tracker.py <deal-folder>` reads `<deal-folder>/tracker.json` and
+**populates the existing `mandate-tracker.xlsx` in place**: it opens the workbook
+that was copied verbatim from `assets/mandate-tracker-template.xlsx` at setup (copying
+the template first if it is somehow missing), writes each state block into its tab by
+fixed position (Mandate Summary key/values, the buyer, bid, reporting bands) or by
+matching the seeded key cells (tasks, data room, legals), recalculates with the xlsx
+skill's `recalc.py`, and leaves all template formatting, the live summary formulas and
+the dropdowns untouched. It never regenerates the workbook from code, so the template
+is the single source of styling. Skills must call it after writing `tracker.json`, and
+must never edit the workbook cell by cell themselves.
 
 ## Bid Log is a three-round comparison matrix
 

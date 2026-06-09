@@ -46,19 +46,23 @@ that every skill depends on. Follow it exactly.
 
 3. **Install the mandate tracker and example documents.** Copy
    `${CLAUDE_PLUGIN_ROOT}/assets/mandate-tracker-template.xlsx` into the deal folder
-   as `mandate-tracker.xlsx`. This is the master document for the mandate and is
-   added to every project folder at this step. Also copy the bundled example
-   documents into the deal so they form part of the project from day one:
-   `${CLAUDE_PLUGIN_ROOT}/assets/NDA-template-EXAMPLE.md` into `nda/` and
-   `${CLAUDE_PLUGIN_ROOT}/assets/HOT-template-EXAMPLE.md` into `04-legals/`. Both are
+   as `mandate-tracker.xlsx`. This is the firm's master workbook, copied verbatim and
+   added to every project folder at this step. It is the single styled source for the
+   workbook: the plugin never rebuilds it from code. Every later refresh writes live
+   values into this copy in place, preserving its formatting, formulas, dropdowns and
+   layout, so editing the template restyles every future deal. Also copy the bundled
+   example documents into the deal so they form part of the project from day one:
+   `${CLAUDE_PLUGIN_ROOT}/assets/NDA-template-EXAMPLE.docx` into `nda/` and
+   `${CLAUDE_PLUGIN_ROOT}/assets/HOT-template-EXAMPLE.docx` into `04-legals/`. Both are
    clearly labelled placeholders for solicitor review; the agent replaces them with
    the firm's own wording when available.
 
 4. **Write `tracker.json`** with the `deal` block populated from what you collected
    and empty `buyers`, `bids`, `dataroom`, `tasks`, `legals` and `reporting` arrays
-   (the workbook seeds the standard checklists for the empty arrays). Then run
-   `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>` so the
-   installed workbook reflects the deal header, and generate `tracker-snapshot.md`.
+   (the template already carries the standard checklists, so empty arrays are fine).
+   Then run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`,
+   which opens the copied template and writes the deal header into it in place (it
+   does not regenerate the workbook), and generate `tracker-snapshot.md`.
    **Confirm the refresh completed with no formula errors before moving on; if it
    errors, fix the cause rather than leaving a broken workbook in the deal folder.**
 
@@ -71,8 +75,8 @@ that every skill depends on. Follow it exactly.
    - If one is present, use it.
    - If not, tell the user to drop their NDA template into `nda/` (Word or PDF) and
      that until then you fall back to the generic UK NDA example copied into `nda/` in
-     step 3 (`NDA-template-EXAMPLE.md`), clearly labelled as a placeholder for
-     solicitor review. The example Heads of Terms (`04-legals/HOT-template-EXAMPLE.md`)
+     step 3 (`NDA-template-EXAMPLE.docx`), clearly labelled as a placeholder for
+     solicitor review. The example Heads of Terms (`04-legals/HOT-template-EXAMPLE.docx`)
      is handled the same way by `select-and-hot`. Do not invent a binding legal
      document silently.
 
@@ -105,8 +109,8 @@ The skill is done only when all of these are true:
       `diligence/`), `02-marketing/`, `nda/` + `nda/signed/`, `03-buyers/`,
       `bids/round-1/` + `bids/round-2/`, `04-legals/`, `05-reporting/`, and an empty
       `correspondence-log.md`.
-- [ ] `mandate-tracker.xlsx` installed; `NDA-template-EXAMPLE.md` copied into `nda/`
-      and `HOT-template-EXAMPLE.md` into `04-legals/`.
+- [ ] `mandate-tracker.xlsx` installed; `NDA-template-EXAMPLE.docx` copied into `nda/`
+      and `HOT-template-EXAMPLE.docx` into `04-legals/`.
 - [ ] `tracker.json` written with the `deal` block populated and `buyers`, `bids`,
       `dataroom`, `tasks`, `legals`, `reporting` arrays present (empty is fine).
 - [ ] `refresh_tracker.py` ran and reported **no formula errors**; `tracker-snapshot.md`

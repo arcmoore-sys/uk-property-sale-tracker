@@ -82,7 +82,7 @@ schema, folder layout, controlled values and write pattern live in
 ## Gates - draft and surface, never decide or send unprompted
 
 - **Preferred-bidder selection** and **Heads of Terms** - invoke `select-and-hot` to
-  draft (starting from `04-legals/HOT-template-EXAMPLE.md` or the firm's template), but
+  draft (starting from `04-legals/HOT-template-EXAMPLE.docx` or the firm's template), but
   the agent chooses the winner and approves the HoT.
 - **Opening round 2 / best-and-final** - recommend with the bid comparison; the agent
   triggers it.

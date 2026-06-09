@@ -159,10 +159,10 @@ def run_stage(deal_folder, stage):
             os.makedirs(os.path.join(deal_folder, t), exist_ok=True)
         shutil.copy2(os.path.join(ASSETS, "mandate-tracker-template.xlsx"),
                      os.path.join(deal_folder, "mandate-tracker.xlsx"))
-        shutil.copy2(os.path.join(ASSETS, "NDA-template-EXAMPLE.md"),
-                     os.path.join(deal_folder, "nda", "NDA-template-EXAMPLE.md"))
-        shutil.copy2(os.path.join(ASSETS, "HOT-template-EXAMPLE.md"),
-                     os.path.join(deal_folder, "04-legals", "HOT-template-EXAMPLE.md"))
+        shutil.copy2(os.path.join(ASSETS, "NDA-template-EXAMPLE.docx"),
+                     os.path.join(deal_folder, "nda", "NDA-template-EXAMPLE.docx"))
+        shutil.copy2(os.path.join(ASSETS, "HOT-template-EXAMPLE.docx"),
+                     os.path.join(deal_folder, "04-legals", "HOT-template-EXAMPLE.docx"))
     # 2. pull documents
     copied = []
     for c in stage.get("copies", []):

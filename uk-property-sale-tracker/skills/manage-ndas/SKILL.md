@@ -23,7 +23,7 @@ review. This deal defaults to `auto`.
 Load the deal's `tracker.json`. Locate the NDA template in `nda/`. If no template
 is present, do not fabricate a binding legal document: tell the user to drop their
 template into `nda/`, and only fall back to the generic example at
-`${CLAUDE_PLUGIN_ROOT}/assets/NDA-template-EXAMPLE.md` (clearly labelled as a
+`${CLAUDE_PLUGIN_ROOT}/assets/NDA-template-EXAMPLE.docx` (clearly labelled as a
 placeholder for solicitor review) if they ask you to proceed anyway.
 
 ## Mode A: send NDAs to buyers who need them

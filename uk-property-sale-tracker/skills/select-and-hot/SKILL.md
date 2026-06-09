@@ -25,8 +25,8 @@ Bridges the bid process and the legal phase. Read
    set `deal.preferred_bidder_date`.
 
 2. **Draft the Heads of Terms.** Start from the deal's HoT template if present in
-   `04-legals/` (the firm's own, or the bundled `HOT-template-EXAMPLE.md` placed there
-   at setup; fall back to `${CLAUDE_PLUGIN_ROOT}/assets/HOT-template-EXAMPLE.md`).
+   `04-legals/` (the firm's own, or the bundled `HOT-template-EXAMPLE.docx` placed there
+   at setup; fall back to `${CLAUDE_PLUGIN_ROOT}/assets/HOT-template-EXAMPLE.docx`).
    Produce a clear, non-binding (subject to contract) HoT covering the parties, the
    property, price, deposit, conditions, exclusivity period, the timetable to exchange
    and completion, and each side's solicitors. Save the drafted HoT into `04-legals/`

@@ -580,7 +580,7 @@
           "dest": "01-dataroom/diligence"
         },
         {
-          "src": "inbox/01-dataroom/dataroom-delivery-note.md",
+          "src": "inbox/01-dataroom/dataroom-delivery-note.pdf",
           "dest": "01-dataroom"
         }
       ],
@@ -796,7 +796,7 @@
           "dest": "02-marketing/enquiries"
         },
         {
-          "src": "produced/05-reporting/2026-03-13-launch-update.md",
+          "src": "produced/05-reporting/2026-03-13-launch-update.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1077,27 +1077,27 @@
       "narration": "AML/KYC and proof-of-funds evidence for the five signed parties is filed under 03-buyers/ and each is marked clear and verified, cleared to receive the process letter.",
       "copies": [
         {
-          "src": "inbox/04-qualification/segro-proof-of-funds.md",
+          "src": "inbox/04-qualification/segro-proof-of-funds.pdf",
           "dest": "03-buyers/segro"
         },
         {
-          "src": "inbox/04-qualification/prologis-proof-of-funds.md",
+          "src": "inbox/04-qualification/prologis-proof-of-funds.pdf",
           "dest": "03-buyers/prologis"
         },
         {
-          "src": "inbox/04-qualification/brookfield-proof-of-funds.md",
+          "src": "inbox/04-qualification/brookfield-proof-of-funds.pdf",
           "dest": "03-buyers/brookfield"
         },
         {
-          "src": "inbox/04-qualification/kkr-proof-of-funds.md",
+          "src": "inbox/04-qualification/kkr-proof-of-funds.pdf",
           "dest": "03-buyers/kkr"
         },
         {
-          "src": "inbox/04-qualification/abrdn-proof-of-funds.md",
+          "src": "inbox/04-qualification/abrdn-proof-of-funds.pdf",
           "dest": "03-buyers/abrdn"
         },
         {
-          "src": "produced/05-reporting/2026-03-13-launch-update.md",
+          "src": "produced/05-reporting/2026-03-13-launch-update.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1168,7 +1168,7 @@
       "narration": "The round-1 process letter (call for offers) goes to the five qualified parties and is filed under bids/round-1/. The deal moves into its first bid round.",
       "copies": [
         {
-          "src": "produced/bids/round-1/round-1-process-letter.md",
+          "src": "produced/bids/round-1/round-1-process-letter.pdf",
           "dest": "bids/round-1"
         }
       ],
@@ -1219,7 +1219,7 @@
           "dest": "bids/round-1"
         },
         {
-          "src": "produced/05-reporting/2026-04-09-bid-report-round-1.md",
+          "src": "produced/05-reporting/2026-04-09-bid-report-round-1.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1358,7 +1358,7 @@
       "gate": "Opening round 2 is a client decision, the agent recommends it with the bid comparison; the client triggers it.",
       "copies": [
         {
-          "src": "produced/bids/round-2/round-2-process-letter-best-and-final.md",
+          "src": "produced/bids/round-2/round-2-process-letter-best-and-final.pdf",
           "dest": "bids/round-2"
         }
       ],
@@ -1409,7 +1409,7 @@
           "dest": "bids/round-2"
         },
         {
-          "src": "produced/05-reporting/2026-04-30-bid-report-round-2.md",
+          "src": "produced/05-reporting/2026-04-30-bid-report-round-2.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1529,15 +1529,15 @@
       "gate": "Preferred-bidder selection and Heads of Terms are gated, the agent drafts and surfaces; the client chooses the winner and approves the HoT.",
       "copies": [
         {
-          "src": "produced/04-legals/heads-of-terms-EXAMPLE.md",
+          "src": "produced/04-legals/heads-of-terms-EXAMPLE.docx",
           "dest": "04-legals"
         },
         {
-          "src": "produced/04-legals/exclusivity-agreement-EXAMPLE.md",
+          "src": "produced/04-legals/exclusivity-agreement-EXAMPLE.docx",
           "dest": "04-legals"
         },
         {
-          "src": "produced/05-reporting/2026-05-13-hot-note.md",
+          "src": "produced/05-reporting/2026-05-13-hot-note.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1625,7 +1625,7 @@
           "dest": "04-legals"
         },
         {
-          "src": "produced/05-reporting/2026-06-01-exchange-note.md",
+          "src": "produced/05-reporting/2026-06-01-exchange-note.docx",
           "dest": "05-reporting"
         }
       ],
@@ -1800,11 +1800,11 @@
       "gate": "Client-facing reports and the fee invoice respect send_mode, drafted and staged by default; auto-sent only when send_mode is auto.",
       "copies": [
         {
-          "src": "produced/05-reporting/2026-06-05-closing-report.md",
+          "src": "produced/05-reporting/2026-06-05-closing-report.docx",
           "dest": "05-reporting"
         },
         {
-          "src": "produced/05-reporting/2026-06-05-fee-invoice-EXAMPLE.md",
+          "src": "produced/05-reporting/2026-06-05-fee-invoice-EXAMPLE.pdf",
           "dest": "05-reporting"
         }
       ],
