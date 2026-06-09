@@ -10,7 +10,7 @@ description: >
   details manually, writes the buyer into tracker.json, refreshes the workbook, and
   hands off to manage-ndas.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Add a buyer
@@ -48,11 +48,14 @@ form's three fields mapped as: **Buyer → `name`, Company → `company`, Contac
    candidates were found, present the three empty fields for manual entry and say the
    suggestions came up empty.
 
-4. **Validate.** Require a **Buyer name** and a syntactically valid **Contact
-   Email**; Company is optional. If the email is missing or malformed, ask for it
-   rather than writing a half-formed record. If the chosen email already belongs to
-   an existing buyer, stop and tell the user it is a duplicate (offer to open that
-   buyer instead of creating a second).
+4. **Validate (lightly).** A **Buyer name** is the only hard requirement. Company
+   and Contact Email are both optional, and the email is **not** validated for
+   format: record whatever the user provides verbatim (or leave it empty). Never
+   block a manual add because an email is missing or looks malformed. If a provided
+   email exactly matches an existing buyer's (case-insensitive), flag it as a likely
+   duplicate and ask whether to add anyway or open the existing buyer, but do not
+   hard-stop. Only ask the user to supply a missing field when the **Buyer name**
+   itself is blank.
 
 5. **Write the buyer record.** Append one entry to `tracker.json.buyers`:
    - `name`, `company`, `email` from the form.
@@ -90,8 +93,9 @@ The skill is done only when all of these are true:
       no matches); no buyer or email address invented.
 - [ ] Form presented with the three fields (Buyer, Company, Contact Email), offering
       mined suggestions **and** manual entry.
-- [ ] Buyer name present and Contact Email valid; Company optional; duplicate email
-      detected and stopped rather than creating a second record.
+- [ ] Buyer name present (the only hard requirement); Company and Contact Email
+      optional and accepted as-typed without format validation; an exact-match
+      duplicate email flagged for the user but not auto-blocked.
 - [ ] One buyer record appended to `tracker.json.buyers` with the full schema:
       `nda_status: not_sent`, `aml_status: pending`, `pof_status: pending`,
       `chase_count: 0`, `bid_status_round_1/2/3: none`, a slug, an enquiry date, and a

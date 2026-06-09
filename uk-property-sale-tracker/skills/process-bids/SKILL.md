@@ -1,14 +1,16 @@
 ---
 name: process-bids
 description: >
-  This skill should be used to log received bids and compare bid rounds. Trigger
-  when the user says "log this bid", "record the offer", "update the bid log",
-  "summarise the bids", "compare round 1 and round 2", "compare the rounds", "what
-  changed between rounds", or when review-inbox detects an incoming bid. It extracts
-  the key terms of each bid into tracker.json, renders the three-round comparison on
-  the Bid Log tab, and builds a round-over-round change narrative.
+  This skill should be used to find, log and compare received bids. Trigger when the
+  user says "log this bid", "record the offer", "update the bid log", "check email
+  for new bids", "any new offers in", "download the bids from my inbox", "summarise
+  the bids", "compare round 1 and round 2", "compare the rounds", "what changed
+  between rounds", or when review-inbox detects an incoming bid. It can sweep the
+  agent's email for new bid emails and download their attachments, extracts the key
+  terms of each bid into tracker.json, renders the three-round comparison on the Bid
+  Log tab, and builds a round-over-round change narrative.
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Process bids (log terms and compare up to three rounds)
@@ -18,9 +20,39 @@ the client-ready comparison on the Bid Log tab current. Read
 `${CLAUDE_PLUGIN_ROOT}/shared/data-model.md` first. Bids are held in
 `tracker.json.bids`, one record per buyer per round, with `round` in {1, 2, 3}.
 
+## Mode A0: sweep email for new bids
+
+Run this when the user asks to check email for bids, or at the start of any bid run
+when no document was supplied, so received offers are pulled in automatically rather
+than waiting to be pasted.
+
+1. Identify the deal and load its `tracker.json`. Determine the open round from
+   `deal.current_round` (treat round 1 as the default if it is still 0).
+2. Search the agent's email with the connected email tool for offers on this deal:
+   query by property name/address, by the known buyer email addresses in
+   `tracker.json.buyers`, and for offer language ("offer", "bid", "best and final",
+   "subject to contract", a price, a yield). Restrict to messages newer than the
+   most recent `bid-received` entry in `correspondence-log.md` so nothing is
+   double-counted.
+3. For every message that is a bid, download its attachments (offer letter, heads of
+   terms, proof of funds) and save them into `bids/round-<N>/`, named
+   `<buyer-slug>-<round>-<short-desc>.<ext>`. If the offer is in the email body only,
+   save the body as `bids/round-<N>/<buyer-slug>-<round>-email.md`. Skip any bid
+   already filed for that buyer and round (dedupe by buyer + round).
+4. Match each bid to a buyer record by email or name; if the sender is not yet a
+   buyer, add a buyer record (as `review-inbox` would) before logging.
+5. Hand each downloaded bid to Mode A to extract terms and log it. Keep the raw files
+   as the audit trail.
+6. If no email tool is connected, say so and fall back to Mode A with a
+   user-supplied or pasted bid.
+
+After the sweep, report which messages were found, which were filed as new bids, and
+which were skipped as already logged, then continue into Mode A for each new one.
+
 ## Mode A: log a received bid
 
-For each new bid (passed from `review-inbox` or supplied by the user):
+For each new bid (swept from email in Mode A0, passed from `review-inbox`, or
+supplied by the user):
 
 1. Identify the buyer and round. Save the raw document into `bids/round-<N>/` if not
    already filed.
