@@ -39,8 +39,21 @@ completes vendor onboarding before marketing starts. Read
 
 4. **File the signed mandate** and fee agreement into `00-mandate/` when supplied.
 
-5. **Update the workbook.** Write the changes to `tracker.json`, mark the relevant
-   phase 1 rows of `tasks` as `Complete` or `In progress`, then run
+5. **Update the workbook.** Write the changes to `tracker.json`. Update the
+   following `tasks` entries using these exact task names (they must match the
+   workbook's seeded names exactly for `refresh_tracker.py` to update the right rows):
+   - `"Agree and sign agency / sale mandate"` → `"In progress"` if the mandate is
+     unsigned or countersignature is outstanding; `"Complete"` once fully signed.
+   - `"Confirm fee basis, abort fee, marketing budget"` → `"Complete"`.
+   - `"Confirm sale structure (asset vs share / SPV)"` → `"Complete"`.
+   - `"Run AML / KYC on vendor and beneficial owners"` → `"Not started"`, `"In
+     progress"`, or `"Complete"` depending on the AML outcome.
+   - `"Confirm VAT position (OTT / TOGC) with client"` → `"Not started"` if
+     unresolved; `"In progress"` if referred to the accountant; `"Complete"` once
+     confirmed.
+   - `"Agree process type and timetable"` → `"Complete"`.
+   Set `phase` to `"1. Mandate & setup"` and `automated_by` to `"onboard-mandate"`
+   for each entry. Then run
    `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>` and
    regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
    errors.
@@ -64,7 +77,12 @@ The skill is done only when all of these are true:
 - [ ] Any unresolved AML/KYC item noted as outstanding and the mandate **not** marked
       ready to launch.
 - [ ] Signed mandate and fee agreement filed in `00-mandate/` when supplied.
-- [ ] Phase-1 `tasks` rows updated; `tracker.json` written; `refresh_tracker.py` ran with
-      no formula errors; `tracker-snapshot.md` regenerated.
+- [ ] Tasks updated in `tracker.json` with exact canonical names:
+      `"Agree and sign agency / sale mandate"`, `"Confirm fee basis, abort fee,
+      marketing budget"`, `"Confirm sale structure (asset vs share / SPV)"`,
+      `"Run AML / KYC on vendor and beneficial owners"`, `"Confirm VAT position
+      (OTT / TOGC) with client"`, `"Agree process type and timetable"`; statuses set
+      per outcome; `refresh_tracker.py` ran with no formula errors;
+      `tracker-snapshot.md` regenerated.
 - [ ] Summary delivered covering terms, AML/KYC status, and what is outstanding before
       launch; `build-dataroom` offered.

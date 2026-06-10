@@ -82,10 +82,21 @@ short narrative to accompany it:
 
 ## After running
 
-Write `tracker.json`, run
-`python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>` to repopulate
-the Bid Log matrix, and regenerate `tracker-snapshot.md`. The Bid Log tab carries a
-title and subtitle block and is ranked and formatted so the agent can select it and
-paste a clean comparison into the client report between rounds. Offer to run
+Write `tracker.json`. Update the following `tasks` entries using these exact task
+names (they must match the workbook's seeded names exactly):
+- `"Receive and log round 1 bids"` → `"In progress"` while round 1 is open;
+  `"Complete"` once all round-1 bids are in (phase `"4. Bids & offers"`,
+  `automated_by` `"process-bids"`).
+- `"Analyse bids, report to client"` → `"In progress"` once any bids are logged
+  (phase `"4. Bids & offers"`, `automated_by` `"process-bids"`).
+- `"Log round 2 bids and compare rounds"` → `"In progress"` while round 2 is open;
+  `"Complete"` once all round-2 bids are in and compared (phase `"4. Bids & offers"`,
+  `automated_by` `"process-bids"`). Only include this entry if a round-2 bid has been
+  logged.
+
+Run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>` to
+repopulate the Bid Log matrix, and regenerate `tracker-snapshot.md`. The Bid Log tab
+carries a title and subtitle block and is ranked and formatted so the agent can select
+it and paste a clean comparison into the client report between rounds. Offer to run
 `client-report` to send the round update, or `select-and-hot` once the client picks
 a preferred bidder.

@@ -37,7 +37,22 @@ chases the path to exchange and completion. Read
    on (for example outstanding enquiries or buyer funding) and who owns it, so the
    agent can chase the right party.
 
-4. **Update the workbook.** Set the phase 6 `tasks`, write `tracker.json`, run
+4. **Update the workbook.** Update the following `tasks` entries using these exact
+   task names (they must match the workbook's seeded names exactly):
+   - `"Instruct vendor solicitors, issue contract pack"` → `"In progress"` or
+     `"Complete"` (phase `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   - `"Coordinate CPSE replies and enquiries"` → `"In progress"` or `"Complete"`
+     (phase `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   - `"Support due diligence and searches"` → `"In progress"` or `"Complete"` (phase
+     `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   - `"Manage deposit and exchange"` → `"In progress"` or `"Complete"` (phase
+     `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   - `"Coordinate to completion and apportionments"` → `"In progress"` or `"Complete"`
+     (phase `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   - `"Tenant / managing agent handover"` → `"Complete"` once handover is done
+     (phase `"6. Legal & completion"`, `automated_by` `"track-legals"`).
+   Only include tasks for milestones reported on this run; leave others at their
+   existing status. Write `tracker.json`, run
    `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
    regenerate `tracker-snapshot.md`.
 

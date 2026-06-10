@@ -43,9 +43,21 @@ Bridges the bid process and the legal phase. Read
    parties' positions. Set their `bid_status_round_<current>` to `declined`. Log
    each in `correspondence-log.md`.
 
-5. **Update the workbook.** Set the phase 5 `tasks` and the early `legals`
-   milestones (preferred bidder confirmed, HoT agreed, exclusivity in place), write
-   `tracker.json`, run
+5. **Update the workbook.** Update the following `tasks` entries using these exact
+   task names (they must match the workbook's seeded names exactly):
+   - `"Select preferred bidder with client"` → `"Complete"` (phase
+     `"5. Preferred bidder & HoT"`, `automated_by` `"select-and-hot"`).
+   - `"Negotiate and agree Heads of Terms"` → `"In progress"` once the HoT is
+     drafted; `"Complete"` once agreed and signed (phase `"5. Preferred bidder & HoT"`,
+     `automated_by` `"select-and-hot"`).
+   - `"Confirm exclusivity / lockout"` → `"In progress"` if being negotiated;
+     `"Complete"` once the lockout period is agreed (phase
+     `"5. Preferred bidder & HoT"`, `automated_by` `"select-and-hot"`).
+   - `"Notify unsuccessful bidders"` → `"Complete"` once all unsuccessful parties
+     have been notified (phase `"4. Bids & offers"`, `automated_by`
+     `"select-and-hot"`).
+   Also update the early `legals` milestones (preferred bidder confirmed, HoT agreed,
+   exclusivity in place). Write `tracker.json`, run
    `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
    regenerate `tracker-snapshot.md`.
 

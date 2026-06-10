@@ -58,11 +58,20 @@ that every skill depends on. Follow it exactly.
    the firm's own wording when available.
 
 4. **Write `tracker.json`** with the `deal` block populated from what you collected
-   and empty `buyers`, `bids`, `dataroom`, `tasks`, `legals` and `reporting` arrays
-   (the template already carries the standard checklists, so empty arrays are fine).
-   Then run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`,
-   which opens the copied template and writes the deal header into it in place (it
-   does not regenerate the workbook), and generate `tracker-snapshot.md`.
+   and empty `buyers`, `bids`, `dataroom`, `legals` and `reporting` arrays. Seed the
+   `tasks` array with the single entry for this skill's work:
+
+   ```json
+   {"phase": "1. Mandate & setup", "task": "Create deal folder, tracker and schedules",
+    "owner": "Agent", "status": "Complete", "due": "<today>", "done": "<today>",
+    "automated_by": "setup-deal"}
+   ```
+
+   The remaining phase rows are already seeded in the workbook template at "Not
+   started" and will be updated as each subsequent skill runs. Then run
+   `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, which opens
+   the copied template and writes the deal header and this task status into it in place
+   (it does not regenerate the workbook), and generate `tracker-snapshot.md`.
    **Confirm the refresh completed with no formula errors before moving on; if it
    errors, fix the cause rather than leaving a broken workbook in the deal folder.**
 
@@ -111,8 +120,9 @@ The skill is done only when all of these are true:
       `correspondence-log.md`.
 - [ ] `mandate-tracker.xlsx` installed; `NDA-template-EXAMPLE.docx` copied into `nda/`
       and `HOT-template-EXAMPLE.docx` into `04-legals/`.
-- [ ] `tracker.json` written with the `deal` block populated and `buyers`, `bids`,
-      `dataroom`, `tasks`, `legals`, `reporting` arrays present (empty is fine).
+- [ ] `tracker.json` written with the `deal` block populated; `buyers`, `bids`,
+      `dataroom`, `legals`, `reporting` arrays empty; `tasks` seeded with
+      `"Create deal folder, tracker and schedules"` → `"Complete"`.
 - [ ] `refresh_tracker.py` ran and reported **no formula errors**; `tracker-snapshot.md`
       generated.
 - [ ] NDA template located, or the user told where to drop it and which fallback applies.

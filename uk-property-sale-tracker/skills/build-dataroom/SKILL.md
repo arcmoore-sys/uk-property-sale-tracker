@@ -62,9 +62,25 @@ list into a tracked checklist and tells the agent what is still missing. Read
    the agent can chase the client or solicitor. Call out anything that blocks launch
    (for example missing EPC, unsigned leases, no title).
 
-5. **Update the workbook.** Write `tracker.json`, update the phase 2 rows of
-   `tasks`, run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`,
-   and regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
+5. **Update the workbook.** Write `tracker.json`. Update the following `tasks`
+   entries using these exact task names (they must match the workbook's seeded names
+   exactly for `refresh_tracker.py` to update the right rows):
+   - `"Collect title documents"` → `"In progress"` or `"Complete"`.
+   - `"Collect leases, licences, deeds of variation"` → `"In progress"` or `"Complete"`.
+   - `"Compile and verify tenancy schedule / rent roll"` → `"In progress"` or `"Complete"`.
+   - `"Gather service charge budgets and accounts"` → `"In progress"` or `"Complete"`.
+   - `"Obtain EPC(s) and confirm validity"` → `"In progress"` or `"Complete"`.
+   - `"Obtain asbestos register, FRA, surveys"` → `"In progress"` or `"Complete"`.
+   - `"Collect deposits, AGAs, guarantees"` → `"In progress"` or `"Complete"`.
+   - `"Gather planning, building regs, warranties"` → `"In progress"` or `"Complete"`.
+   - `"Commission / compile vendor due diligence"` → `"In progress"` or `"Complete"`.
+   - `"Build and index the data room"` → `"In progress"` while work is ongoing;
+     `"Complete"` when the data room is fully populated and ready for buyer access.
+   Set `phase` to `"2. Information & data room"` and `automated_by` to
+   `"build-dataroom"` for each entry. Only include tasks for checklist items updated
+   this run; leave others at their existing status. Run
+   `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
+   regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
    errors. If any documents were sourced from email, append a row to
    `correspondence-log.md` (type `dataroom-doc-filed`) for each.
 
@@ -121,9 +137,11 @@ The skill is done only when all of these are true:
       recorded in the item's `notes`.
 - [ ] Outstanding items (`received: No`) listed grouped by category; launch blockers
       (e.g. missing EPC, no title, unsigned leases) explicitly called out.
-- [ ] Phase-2 `tasks` rows updated; `tracker.json` written; `refresh_tracker.py` ran with
-      no formula errors; `tracker-snapshot.md` regenerated; `correspondence-log.md`
-      updated for any email-sourced documents.
+- [ ] Tasks updated in `tracker.json` with exact canonical phase-2 names
+      (`"Collect title documents"`, `"Build and index the data room"`, etc.); statuses
+      set per document receipt; `refresh_tracker.py` ran with no formula errors;
+      `tracker-snapshot.md` regenerated; `correspondence-log.md` updated for any
+      email-sourced documents.
 - [ ] Readiness reported (in versus total) and a chase note to client/solicitor offered.
 - [ ] Closing notice shown, reminding the user to manually review each document before
       sending anything to the lawyers.

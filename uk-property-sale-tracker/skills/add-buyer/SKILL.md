@@ -68,8 +68,11 @@ form's three fields mapped as: **Buyer → `name`, Company → `company`, Contac
    - `notes`: record the source ("added from enquiry email dated …" or "added
      manually").
 
-6. **Refresh the records.** Write `tracker.json`, run
-   `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
+6. **Refresh the records.** Write `tracker.json`. Also upsert the following
+   `tasks` entry using this exact task name:
+   - `"Build and qualify target buyer list"` → `"In progress"` (phase
+     `"3. Marketing & buyers"`, `automated_by` `"add-buyer"`).
+   Run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
    regenerate `tracker-snapshot.md`. Confirm the refresh completed with no formula
    errors. If sourced from an email, append a row to `correspondence-log.md`
    (type `buyer-added`).
@@ -100,6 +103,7 @@ The skill is done only when all of these are true:
       `nda_status: not_sent`, `aml_status: pending`, `pof_status: pending`,
       `chase_count: 0`, `bid_status_round_1/2/3: none`, a slug, an enquiry date, and a
       source note.
-- [ ] `tracker.json` written; `refresh_tracker.py` ran with no formula errors;
+- [ ] `tracker.json` written with `"Build and qualify target buyer list"` task set
+      to `"In progress"`; `refresh_tracker.py` ran with no formula errors;
       `tracker-snapshot.md` regenerated; `correspondence-log.md` updated if email-sourced.
 - [ ] Confirmation delivered and `manage-ndas` offered to send the NDA.

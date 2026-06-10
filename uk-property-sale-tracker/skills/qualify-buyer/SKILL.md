@@ -38,8 +38,12 @@ on AML and proof of funds before being invited to bid. Read
    sent the process letter prematurely. `request-bids` should only include qualified
    parties in round 1.
 
-5. **Update the workbook.** Write `tracker.json`, run
-   `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
+5. **Update the workbook.** Write `tracker.json`. Upsert the following `tasks`
+   entry using this exact task name:
+   - `"Run buyer AML / KYC and proof of funds"` → `"In progress"` while any targeted
+     buyer is still pending; `"Complete"` once all targeted buyers are cleared (phase
+     `"3. Marketing & buyers"`, `automated_by` `"qualify-buyer"`).
+   Run `python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, and
    regenerate `tracker-snapshot.md`.
 
 ## Output

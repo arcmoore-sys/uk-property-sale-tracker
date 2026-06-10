@@ -46,7 +46,9 @@ professional.
 3. Send the `.docx` from the agent's email in `auto` mode, or stage it in `draft`
    mode. File the `.docx` into `05-reporting/`.
 4. Append a row to `reporting` (`type: Weekly update`, period, sent to, method) and
-   log it in `correspondence-log.md`.
+   log it in `correspondence-log.md`. Upsert the following `tasks` entry:
+   `"Regular (weekly) client progress reports"` → `"In progress"` (phase
+   `"7. Reporting & close"`, `automated_by` `"client-report"`).
 
 ## Mode B: closing report and fee invoice
 
@@ -56,8 +58,17 @@ Run at completion.
    outcome against the mandate. File the `.docx` into `05-reporting/`.
 2. Prepare the fee invoice as a formatted Word document from the `deal.fee_basis` and
    the agreed price, plus any disbursements. Stage the `.docx` for the agent to issue.
-3. Append a `reporting` row (`type: Closing report`) and mark the phase 7 `tasks`
-   complete.
+3. Append a `reporting` row (`type: Closing report`). Update the following `tasks`
+   entries using these exact task names (they must match the workbook's seeded names
+   exactly):
+   - `"Regular (weekly) client progress reports"` → `"Complete"` (phase
+     `"7. Reporting & close"`, `automated_by` `"client-report"`).
+   - `"Close data room, archive records"` → `"Complete"` (phase
+     `"7. Reporting & close"`, `automated_by` `"client-report"`).
+   - `"Invoice fee and disbursements"` → `"Complete"` (phase
+     `"7. Reporting & close"`, `automated_by` `"client-report"`).
+   - `"Issue final closing report to client"` → `"Complete"` (phase
+     `"7. Reporting & close"`, `automated_by` `"client-report"`).
 
 ## After running
 

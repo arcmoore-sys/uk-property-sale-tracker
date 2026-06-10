@@ -57,6 +57,39 @@ these in the summary.
 
 ## After running
 
-Update `tracker.json`, regenerate `tracker-snapshot.md`, and report who was sent an
-NDA and who was chased. If signed NDAs have come back, point the user to
-`review-inbox` (or note it already filed them if run as part of that flow).
+Update `tracker.json`. Update the following `tasks` entries using these exact task
+names (they must match the workbook's seeded names exactly):
+- `"Issue NDAs to interested parties"` → `"In progress"` while NDAs are outstanding;
+  `"Complete"` once all targeted parties have been sent their NDA.
+- `"Chase unsigned NDAs (every 2 days)"` → `"In progress"` while any buyer has
+  `nda_status: sent`.
+- `"File signed NDAs, grant data room access"` → `"In progress"` while signed NDAs
+  are being filed; `"Complete"` when all signed NDAs are filed and data room access
+  has been granted.
+
+Set `phase` to `"3. Marketing & buyers"` and `automated_by` to `"manage-ndas"` for
+each entry. Run
+`python ${CLAUDE_PLUGIN_ROOT}/shared/refresh_tracker.py <deal-folder>`, regenerate
+`tracker-snapshot.md`, and report who was sent an NDA and who was chased. If signed
+NDAs have come back, point the user to `review-inbox` (or note it already filed them
+if run as part of that flow).
+
+## Completion checklist
+
+The skill is done only when all of these are true:
+
+- [ ] Deal identified and `tracker.json` loaded; NDA template located (or fallback
+      explained).
+- [ ] Mode A: every buyer with `nda_status: not_sent` has been sent an NDA;
+      `nda_status` set to `sent`, dates and `chase_count` recorded; each send logged
+      in `correspondence-log.md`.
+- [ ] Mode B: every buyer with `nda_status: sent` who is 2+ days overdue has been
+      chased; `last_chase_date` updated; buyers at `chase_count >= 5` flagged for
+      agent decision.
+- [ ] Tasks updated in `tracker.json` with exact canonical names: `"Issue NDAs to
+      interested parties"`, `"Chase unsigned NDAs (every 2 days)"`, `"File signed
+      NDAs, grant data room access"`; statuses set per current pipeline state;
+      `refresh_tracker.py` ran with no formula errors; `tracker-snapshot.md`
+      regenerated.
+- [ ] Summary delivered: who was sent, who was chased, and buyers awaiting agent
+      decision.
