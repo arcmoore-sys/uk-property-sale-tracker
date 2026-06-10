@@ -1,5 +1,5 @@
 ---
-name: request-bids
+name: re-sales-request-bids
 description: >
   This skill should be used to issue a process letter (request for bids / call for
   offers) to all parties on a deal, for either the first or a subsequent round.

@@ -1,5 +1,5 @@
 ---
-name: build-dataroom
+name: re-sales-build-dataroom
 description: >
   This skill should be used to assemble and track the data room for a sale. Trigger
   when the user says "build the data room", "what documents do we still need", "data

@@ -1,5 +1,5 @@
 ---
-name: client-report
+name: re-sales-client-report
 description: >
   This skill should be used to generate and log client progress reports, the final
   closing report, and the fee invoice. Trigger when the user says "send the client

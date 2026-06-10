@@ -1,5 +1,5 @@
 ---
-name: track-legals
+name: re-sales-track-legals
 description: >
   This skill should be used to track the legal phase from instruction of solicitors
   through exchange and completion. Trigger when the user says "update the legals",

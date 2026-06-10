@@ -1,5 +1,5 @@
 ---
-name: review-inbox
+name: re-sales-review-inbox
 description: >
   This skill should be used to scan the agent's email for a property deal and
   refresh the live buyer tracker and dashboard. Trigger when the user says "review

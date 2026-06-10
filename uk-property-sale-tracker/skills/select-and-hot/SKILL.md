@@ -1,5 +1,5 @@
 ---
-name: select-and-hot
+name: re-sales-select-and-hot
 description: >
   This skill should be used to select the preferred bidder, draft Heads of Terms,
   record exclusivity, and notify unsuccessful bidders. Trigger when the user says

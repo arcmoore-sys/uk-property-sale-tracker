@@ -1,5 +1,5 @@
 ---
-name: manage-ndas
+name: re-sales-manage-ndas
 description: >
   This skill should be used to send NDAs to prospective buyers and to chase those
   who have not returned a signed copy. Trigger when the user says "send the NDA",

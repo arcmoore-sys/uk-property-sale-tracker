@@ -1,5 +1,5 @@
 ---
-name: add-buyer
+name: re-sales-add-buyer
 description: >
   This skill should be used to add a prospective buyer to a deal by filling out a
   short form. Trigger when the user says "add a buyer", "add buyer", "new buyer",

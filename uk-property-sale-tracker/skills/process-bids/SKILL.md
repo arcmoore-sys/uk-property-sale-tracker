@@ -1,5 +1,5 @@
 ---
-name: process-bids
+name: re-sales-process-bids
 description: >
   This skill should be used to find, log and compare received bids. Trigger when the
   user says "log this bid", "record the offer", "update the bid log", "check email

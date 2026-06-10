@@ -1,5 +1,5 @@
 ---
-name: qualify-buyer
+name: re-sales-qualify-buyer
 description: >
   This skill should be used to run AML/KYC and proof-of-funds checks on a
   prospective buyer once their NDA is signed and before they receive the process

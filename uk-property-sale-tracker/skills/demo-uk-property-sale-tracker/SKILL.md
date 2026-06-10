@@ -1,5 +1,5 @@
 ---
-name: demo-uk-property-sale-tracker
+name: re-sales-demo-uk-property-sale-tracker
 description: >
   This skill runs a complete, self-contained demo of the uk-property-sale-tracker
   plugin: a fictional UK single-let logistics deal (Quantum 245, Tamworth) driven

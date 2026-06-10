@@ -1,5 +1,5 @@
 ---
-name: setup-deal
+name: re-sales-setup-deal
 description: >
   This skill should be used to start tracking the sale of a new property. Trigger
   when the user says "set up a new deal", "start tracking [address]", "new

@@ -1,5 +1,5 @@
 ---
-name: onboard-mandate
+name: re-sales-onboard-mandate
 description: >
   This skill should be used to capture the commercial terms of a new sale mandate
   and run vendor onboarding. Trigger when the user says "onboard the mandate",
